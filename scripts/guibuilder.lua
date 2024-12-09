@@ -34,7 +34,7 @@ local function buildHeader(guiFrame)
         type = "sprite-button",
         name = "gui_close",
         style = "frame_action_button",
-        sprite = "utility/close_white",
+        sprite = "utility/close",
         hovered_sprite = "utility/close_black",
         clicked_sprite = "utility/close_black",
         mouse_button_filter = {"left"},
@@ -44,13 +44,13 @@ end
 
 --#region -~[ AUTO ]~-
 local function buildAutoHeader(index, auto_header)
-    global.gui[index].auto_content_collapse = auto_header.add{
+    storage.gui[index].auto_content_collapse = auto_header.add{
         type = "sprite-button",
         name = "auto_content_collapse",
         style = "fas_expand_button",
         sprite = "utility/collapse",
-        hovered_sprite = "utility/collapse_dark",
-        clicked_sprite = "utility/collapse_dark",
+        hovered_sprite = "utility/collapse",
+        clicked_sprite = "utility/collapse",
         mouse_button_filter = {"left"}
     }
 
@@ -75,7 +75,7 @@ local function buildAutoStatus(index, auto_content)
         caption = {"FAS-status-caption"},
         style = "fas_label"
     }
-    global.gui[index].status_value = status_flow.add{
+    storage.gui[index].status_value = status_flow.add{
         type = "label",
         name = "status_value",
         caption = gui.getStatusValue()
@@ -87,7 +87,7 @@ local function buildAutoStatus(index, auto_content)
         visible = "false"
     }
     progressbar.style.width = 334
-    global.gui[index].progress_bar = progressbar
+    storage.gui[index].progress_bar = progressbar
 end
 
 local function addListitem(index, list, surfacename)
@@ -97,12 +97,12 @@ local function addListitem(index, list, surfacename)
         direction = "horizontal",
         style = "fas_flow"
     }
-    local temp = global.auto[index].doSurface[surfacename]
+    local temp = storage.auto[index].doSurface[surfacename]
     list_item.add{
         type = "checkbox",
         name = "surface_checkbox_" .. surfacename,
         caption = surfacename,
-        state = global.auto[index].doSurface[surfacename] or false
+        state = storage.auto[index].doSurface[surfacename] or false
     }
 end
 
@@ -160,7 +160,7 @@ local function buildAutoResolution(index, auto_screenshot_config)
     resolution_flow.add{
         type = "drop-down",
         name = "auto_resolution_value",
-        selected_index = global.auto[index].resolution_index,
+        selected_index = storage.auto[index].resolution_index,
         items = {"15360x8640 (16K)", "7680x4320 (8K)", "3840x2160 (4K)", "1920x1080 (FullHD)", "1280x720  (HD)"}
     }
 end
@@ -180,11 +180,11 @@ local function buildAutoInterval(index, auto_screenshot_config)
         style = "fas_label"
     }
 
-    global.gui[index].interval_value = interval_flow.add{
+    storage.gui[index].interval_value = interval_flow.add{
         type = "textfield",
         name = "interval_value",
         tooltip = {"FAS-interval-value-tooltip"},
-        text = global.auto[index].interval / 3600,
+        text = storage.auto[index].interval / 3600,
         numeric = true,
         style = "fas_slim_numeric_output"
     }
@@ -211,10 +211,10 @@ local function buildAutoSingleTick(index, auto_screenshot_config)
         style = "fas_label"
     }
 
-    global.gui[index].single_tick_value = single_tick_flow.add{
+    storage.gui[index].single_tick_value = single_tick_flow.add{
         type = "checkbox",
         name = "single_tick_value",
-        state = global.auto[index].singleScreenshot or false
+        state = storage.auto[index].singleScreenshot or false
     }
 end
 
@@ -224,9 +224,9 @@ local function buildAutoSplittingFactor(index, auto_screenshot_config)
         name = "splitting_factor_flow",
         direction = "horizontal",
         style = "fas_flow",
-        visible = not global.auto[index].singleScreenshot
+        visible = not storage.auto[index].singleScreenshot
     }
-    global.gui[index].splitting_factor_flow = splitting_factor_flow
+    storage.gui[index].splitting_factor_flow = splitting_factor_flow
 
     splitting_factor_flow.add{
         type = "label",
@@ -242,14 +242,14 @@ local function buildAutoSplittingFactor(index, auto_screenshot_config)
         minimum_value = "0",
         maximum_value = "3",
         -- x in 4^x, log_4(x), as log_a(b) is ln(b)/ln(a) -- credits to curiosity!
-        value = math.log(global.auto[index].splittingFactor)/math.log(4),
+        value = math.log(storage.auto[index].splittingFactor)/math.log(4),
         style = "fas_slider"
     }
 
-    global.gui[index].splitting_factor_value = splitting_factor_flow.add{
+    storage.gui[index].splitting_factor_value = splitting_factor_flow.add{
         type = "textfield",
         name = "splitting_factor_value",
-        text = global.auto[index].splittingFactor,
+        text = storage.auto[index].splittingFactor,
         numeric = "true",
         enabled = false,
         style = "fas_slim_numeric_output"
@@ -266,7 +266,7 @@ local function buildAutoScreenshotSection(index, auto_frame)
         type = "flow",
         direction = "vertical"
     }
-    global.gui[index].auto_content = auto_content
+    storage.gui[index].auto_content = auto_content
 
     buildAutoStatus(index, auto_content)
     buildAutoSurface(index, auto_content)
@@ -279,13 +279,13 @@ end
 
 --#region -~[[ AREA ]]~-
 local function buildAreaHeader(index, area_header)
-    global.gui[index].area_content_collapse = area_header.add{
+    storage.gui[index].area_content_collapse = area_header.add{
         type = "sprite-button",
         name = "area_content_collapse",
         style = "fas_expand_button",
         sprite = "utility/collapse",
-        hovered_sprite = "utility/collapse_dark",
-        clicked_sprite = "utility/collapse_dark",
+        hovered_sprite = "utility/collapse",
+        clicked_sprite = "utility/collapse",
         mouse_button_filter = {"left"}
     }
 
@@ -312,7 +312,7 @@ local function buildAreaArea(index, area_content)
     }
     area_label.style.top_margin = 4
 
-    global.gui[index].select_area_button = area_select_flow.add{
+    storage.gui[index].select_area_button = area_select_flow.add{
         type = "sprite-button",
         name = "select_area_button",
         sprite = "FAS-area-select-icon",
@@ -352,11 +352,11 @@ local function buildAreaArea(index, area_content)
         type = "textfield",
         name = "width_value",
         numeric = "true",
-        text = (global.snip[index].area.width or ""),
+        text = (storage.snip[index].area.width or ""),
         enabled = "false",
         style = "fas_numeric_output"
     }
-    global.gui[index].width_value = width_value
+    storage.gui[index].width_value = width_value
 
     area_input_table.add{
         type = "label",
@@ -368,11 +368,11 @@ local function buildAreaArea(index, area_content)
         type = "textfield",
         name = "height_value",
         numeric = "true",
-        text = (global.snip[index].area.height or ""),
+        text = (storage.snip[index].area.height or ""),
         enabled = "false",
         style = "fas_numeric_output"
     }
-    global.gui[index].height_value = height_value
+    storage.gui[index].height_value = height_value
 
     area_input_table.add{
         type = "label",
@@ -384,11 +384,11 @@ local function buildAreaArea(index, area_content)
         type = "textfield",
         name = "x_value",
         numeric = "true",
-        text = (global.snip[index].area.left or ""),
+        text = (storage.snip[index].area.left or ""),
         enabled = "false",
         style = "fas_numeric_output"
     }
-    global.gui[index].x_value = x_value
+    storage.gui[index].x_value = x_value
 
 
     area_input_table.add{
@@ -401,11 +401,11 @@ local function buildAreaArea(index, area_content)
         type = "textfield",
         name = "y_value",
         numeric = "true",
-        text = (global.snip[index].area.top or ""),
+        text = (storage.snip[index].area.top or ""),
         enabled = "false",
         style = "fas_numeric_output"
     }
-    global.gui[index].y_value = y_value
+    storage.gui[index].y_value = y_value
 end
 
 local function buildAreaDayTime(index, area_content)
@@ -424,10 +424,10 @@ local function buildAreaDayTime(index, area_content)
         style = "fas_label"
     }
 
-    global.gui[index].daytime_switch = daytime_flow.add{
+    storage.gui[index].daytime_switch = daytime_flow.add{
         type = "switch",
         name = "daytime_switch",
-        switch_state = global.snip[index].daytime_state or "none",
+        switch_state = storage.snip[index].daytime_state or "none",
         allow_none_state = true,
         left_label_caption = {"FAS-day-caption"},
         left_label_tooltip = {"FAS-day-tooltip"},
@@ -452,10 +452,10 @@ local function buildAreaShowAltMode(index, area_content)
         style = "fas_label"
     }
 
-    global.gui[index].alt_mode_value = alt_mode_flow.add{
+    storage.gui[index].alt_mode_value = alt_mode_flow.add{
         type = "checkbox",
         name = "alt_mode_value",
-        state = global.snip[index].showAltMode or false
+        state = storage.snip[index].showAltMode or false
     }
 end
 
@@ -475,10 +475,10 @@ local function buildAreaShowUi(index, area_content)
         style = "fas_label"
     }
 
-    global.gui[index].show_ui_value = show_ui_flow.add{
+    storage.gui[index].show_ui_value = show_ui_flow.add{
         type = "checkbox",
         name = "show_ui_value",
-        state = global.snip[index].showUI or false
+        state = storage.snip[index].showUI or false
     }
 end
 
@@ -498,10 +498,10 @@ local function buildAreaShowCursorBuildingPreview(index, area_content)
         style = "fas_label"
     }
 
-    global.gui[index].show_cursor_building_preview_value = show_cursor_building_preview_flow.add{
+    storage.gui[index].show_cursor_building_preview_value = show_cursor_building_preview_flow.add{
         type = "checkbox",
         name = "show_cursor_building_preview_value",
-        state = global.snip[index].showCursorBuildingPreview or false
+        state = storage.snip[index].showCursorBuildingPreview or false
     }
 end
 
@@ -521,10 +521,10 @@ local function buildAreaUseAntiAlias(index, area_content)
         style = "fas_label"
     }
 
-    global.gui[index].use_anti_alias_value = use_anti_alias_flow.add{
+    storage.gui[index].use_anti_alias_value = use_anti_alias_flow.add{
         type = "checkbox",
         name = "use_anti_alias_value",
-        state = global.snip[index].useAntiAlias or false
+        state = storage.snip[index].useAntiAlias or false
     }
 end
 
@@ -542,18 +542,18 @@ local function buildAreaZoom(index, area_content)
         tooltip = {"FAS-zoom-label-tooltip"},
         style = "fas_label"
     }
-    global.gui[index].zoom_slider = zoom_flow.add{
+    storage.gui[index].zoom_slider = zoom_flow.add{
         type = "slider",
         name = "zoom_slider",
         minimum_value = "-3",
         maximum_value = "5",
-        value = math.log(global.snip[index].zoomLevel)/math.log(2),
+        value = math.log(storage.snip[index].zoomLevel)/math.log(2),
         style = "fas_slider"
     }
-    global.gui[index].zoom_value = zoom_flow.add{
+    storage.gui[index].zoom_value = zoom_flow.add{
         type = "textfield",
         name = "zoom_value",
-        text = global.snip[index].zoomLevel,
+        text = storage.snip[index].zoomLevel,
         numeric = "true",
         allow_decimal = "true",
         enabled = "false",
@@ -574,10 +574,10 @@ local function buildAreaResolution(index, area_content)
         caption = {"FAS-resolution-caption"},
         style = "fas_label"
     }
-    global.gui[index].resolution_value = resolution_flow.add{
+    storage.gui[index].resolution_value = resolution_flow.add{
         type = "label",
         name = "resolution_value",
-        caption = global.snip[index].resolution or {"FAS-no-area-selected"}
+        caption = storage.snip[index].resolution or {"FAS-no-area-selected"}
     }
 end
 
@@ -594,10 +594,10 @@ local function buildAreaFilesize(index, area_content)
         caption = {"FAS-estimated-filesize"},
         style = "fas_label"
     }
-    global.gui[index].estimated_filesize_value = estimated_filesize_flow.add{
+    storage.gui[index].estimated_filesize_value = estimated_filesize_flow.add{
         type = "label",
         name = "estimated_filesize_value",
-        caption = global.snip[index].filesize or "-"
+        caption = storage.snip[index].filesize or "-"
     }
 end
 
@@ -617,13 +617,13 @@ local function buildAreaOutput(index, area_content)
     area_output_flow.add{
         type = "textfield",
         name = "area_output_name",
-        text = global.snip[index].outputName or "screenshot",
+        text = storage.snip[index].outputName or "screenshot",
         style = "fas_wide_text_input"
     }
     area_output_flow.add{
         type = "drop-down",
         name = "area_output_format",
-        selected_index = global.snip[index].output_format_index,
+        selected_index = storage.snip[index].output_format_index,
         items = {".png", ".jpg"},
         style = "fas_slim_drop_down"
     }
@@ -635,9 +635,9 @@ local function buildAreaJpgQuality(index, area_content)
         name = "area_jpg_quality_flow",
         direction = "horizontal",
         style = "fas_flow",
-        visible = global.snip[index].output_format_index == 2
+        visible = storage.snip[index].output_format_index == 2
     }
-    global.gui[index].area_jpg_quality_flow = area_jpg_quality_flow
+    storage.gui[index].area_jpg_quality_flow = area_jpg_quality_flow
     area_jpg_quality_flow.add{
         type = "label",
         name = "area_jpg_quality_label",
@@ -652,14 +652,14 @@ local function buildAreaJpgQuality(index, area_content)
         minimum_value = "10",
         maximum_value = "100",
         value_step = "10",
-        value = global.snip[index].jpg_quality,
+        value = storage.snip[index].jpg_quality,
         style = "fas_slider"
     }
 
-    global.gui[index].area_jpg_quality_value = area_jpg_quality_flow.add{
+    storage.gui[index].area_jpg_quality_value = area_jpg_quality_flow.add{
         type = "textfield",
         name = "area_jpg_quality_value",
-        text = global.snip[index].jpg_quality,
+        text = storage.snip[index].jpg_quality,
         enabled = false,
         style = "fas_slim_numeric_output"
     }
@@ -678,12 +678,12 @@ local function buildAreaStartButton(index, area_content)
         name = "spreader"
     }
     spreader.style.horizontally_stretchable = true
-    global.gui[index].start_area_screenshot_button = agree_flow.add{
+    storage.gui[index].start_area_screenshot_button = agree_flow.add{
         type = "button",
         name = "start_area_screenshot_button",
         caption = {"FAS-start-area-screenshot-button-caption"},
         mouse_button_filter = {"left"},
-        enabled = global.snip[index].enableScreenshotButton or false
+        enabled = storage.snip[index].enableScreenshotButton or false
     }
 end
 
@@ -697,7 +697,7 @@ local function buildAreaScreenshotSection(index, area_frame)
         type = "flow",
         direction = "vertical"
     }
-    global.gui[index].area_content = area_content
+    storage.gui[index].area_content = area_content
 
 
     buildAreaArea(index, area_content)
@@ -740,14 +740,14 @@ function guibuilder.createGuiFrame(player, guiInstance)
 
     if not gui then gui = guiInstance end
 
-    global.gui[player.index] = {}
+    storage.gui[player.index] = {}
     local guiFrame = player.gui.screen.add{
         type = "frame",
         name = guibuilder.mainFrameName,
         direction = "vertical"
     }
     guiFrame.auto_center = true
-    global.gui[player.index].mainFrame = guiFrame
+    storage.gui[player.index].mainFrame = guiFrame
 
     buildHeader(guiFrame)
     buildContentFrame(player.index, guiFrame.add{

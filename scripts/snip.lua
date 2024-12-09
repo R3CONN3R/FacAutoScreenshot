@@ -3,32 +3,32 @@ local l = require("logger")
 local snip = {}
 
 function snip.resetArea(index)
-    if global.snip[index].area.width then
-        global.snip[index].area = {}
+    if storage.snip[index].area.width then
+        storage.snip[index].area = {}
     end
-    if global.snip[index].areaLeftClick then
-        global.snip[index].areaLeftClick = nil
+    if storage.snip[index].areaLeftClick then
+        storage.snip[index].areaLeftClick = nil
     end
-    if global.snip[index].areaRightClick then
-        global.snip[index].areaRightClick = nil
+    if storage.snip[index].areaRightClick then
+        storage.snip[index].areaRightClick = nil
     end
-    if global.snip[index].rec then
-        rendering.destroy(global.snip[index].rec)
-        global.snip[index].rec = nil
+    if storage.snip[index].rec then
+		storage.snip[index].rec.destroy()
+        storage.snip[index].rec = nil
     end
-    if global.snip[index].resolution then
-        global.snip[index].resolution = nil
+    if storage.snip[index].resolution then
+        storage.snip[index].resolution = nil
     end
-    if global.snip[index].filesize then
-        global.snip[index].filesize = nil
+    if storage.snip[index].filesize then
+        storage.snip[index].filesize = nil
     end
-    if global.snip[index].surface_name then
-        global.snip[index].surface_name = nil
+    if storage.snip[index].surface_name then
+        storage.snip[index].surface_name = nil
     end
 end
 
 function snip.calculateArea(index)
-    if global.snip[index].areaLeftClick == nil and global.snip[index].areaRightClick == nil then
+    if storage.snip[index].areaLeftClick == nil and storage.snip[index].areaRightClick == nil then
         log(l.warn("something went wrong when calculating selected area, aborting"))
         return
     end
@@ -38,13 +38,13 @@ function snip.calculateArea(index)
     local bottom
     local right
 
-    if global.snip[index].areaLeftClick then
-        top = global.snip[index].areaLeftClick.y
-        left = global.snip[index].areaLeftClick.x
+    if storage.snip[index].areaLeftClick then
+        top = storage.snip[index].areaLeftClick.y
+        left = storage.snip[index].areaLeftClick.x
     end
-    if global.snip[index].areaRightClick then
-        bottom = global.snip[index].areaRightClick.y
-        right = global.snip[index].areaRightClick.x
+    if storage.snip[index].areaRightClick then
+        bottom = storage.snip[index].areaRightClick.y
+        right = storage.snip[index].areaRightClick.x
     end
 
     if not top then
@@ -85,27 +85,27 @@ function snip.calculateArea(index)
     local width = right - left
     local height = bottom - top
 
-    if not global.snip[index].area then
-        global.snip[index].area = {}
+    if not storage.snip[index].area then
+        storage.snip[index].area = {}
     end
-    global.snip[index].area.top = top
-    global.snip[index].area.left = left
-    global.snip[index].area.right = right
-    global.snip[index].area.bottom = bottom
-    global.snip[index].area.width = width
-    global.snip[index].area.height = height
+    storage.snip[index].area.top = top
+    storage.snip[index].area.left = left
+    storage.snip[index].area.right = right
+    storage.snip[index].area.bottom = bottom
+    storage.snip[index].area.width = width
+    storage.snip[index].area.height = height
 
     local surface_name = game.get_player(index).surface.name
-    global.snip[index].surface_name = surface_name
+    storage.snip[index].surface_name = surface_name
 
-    if global.snip[index].rec then
-        rendering.destroy(global.snip[index].rec)
+    if storage.snip[index].rec then
+		storage.snip[index].rec.destroy()
     end
     
     -- A small offset so we don't have the white lines of the rectangle bleed into image
     local offset = 0.05 
     
-    global.snip[index].rec = rendering.draw_rectangle{
+    storage.snip[index].rec = rendering.draw_rectangle{
         color = {0.5, 0.5, 0.5, 0.5},
         width = 1,
         filled = false,
@@ -118,18 +118,18 @@ function snip.calculateArea(index)
 end
 
 function snip.calculateEstimates(index)
-    if not global.snip[index].area.width then
+    if not storage.snip[index].area.width then
         -- happens if the zoom slider is moved before an area was selected so far
         return
     end
 
-    local zoom = 1 / global.snip[index].zoomLevel
-    local width = math.floor((global.snip[index].area.right - global.snip[index].area.left) * 32 * zoom)
-    local height = math.floor((global.snip[index].area.bottom - global.snip[index].area.top) * 32 * zoom)
+    local zoom = 1 / storage.snip[index].zoomLevel
+    local width = math.floor((storage.snip[index].area.right - storage.snip[index].area.left) * 32 * zoom)
+    local height = math.floor((storage.snip[index].area.bottom - storage.snip[index].area.top) * 32 * zoom)
 
     local size = "-"
     -- 1 means png, only other option is 2, meaning jpg
-    if global.snip[index].output_format_index == 1 then
+    if storage.snip[index].output_format_index == 1 then
         local bytesPerPixel = 2
         size = bytesPerPixel * width * height
 
@@ -145,21 +145,21 @@ function snip.calculateEstimates(index)
     end
 
     local resolution = width .. "x" .. height
-    global.snip[index].resolution = resolution
-    global.snip[index].filesize = size
+    storage.snip[index].resolution = resolution
+    storage.snip[index].filesize = size
 end
 
 function snip.checkIfScreenshotPossible(index)
     -- {1, 16384}
-    local zoom = 1 / global.snip[index].zoomLevel
-    if not global.snip[index].area.width then
-        global.snip[index].enableScreenshotButton = false
+    local zoom = 1 / storage.snip[index].zoomLevel
+    if not storage.snip[index].area.width then
+        storage.snip[index].enableScreenshotButton = false
     else
-        local resX = math.floor((global.snip[index].area.right - global.snip[index].area.left) * 32 * zoom)
-        local resY = math.floor((global.snip[index].area.bottom - global.snip[index].area.top) * 32 * zoom)
+        local resX = math.floor((storage.snip[index].area.right - storage.snip[index].area.left) * 32 * zoom)
+        local resY = math.floor((storage.snip[index].area.bottom - storage.snip[index].area.top) * 32 * zoom)
 
         local enable = resX < 16385 and resY < 16385
-        global.snip[index].enableScreenshotButton = enable
+        storage.snip[index].enableScreenshotButton = enable
     end
 end
 

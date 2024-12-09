@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.6.0
+Date: 09.12.2024
+  Other:
+    - Forked by R3CONN3R to update. Will be removed by request or after Anders142356 is back.
+  Bugfixes:
+    - Updated for Factorio 2.0.7+. For more info see: https://forums.factorio.com/116184
+---------------------------------------------------------------------------------------------------
 Version: 2.4.8
   Other:
     - Special thanks to Caleb-Wishart for the contributions of this release!

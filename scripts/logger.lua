@@ -27,7 +27,7 @@ function logger.warn(...)
 end
 
 function logger.doD()
-    return global.verbose == true
+    return storage.verbose == true
 end
 
 return logger

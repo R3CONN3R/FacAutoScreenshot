@@ -75,6 +75,6 @@ styles.fas_slim_drop_down = {
 }
 styles.fas_section = {
     type = "frame_style",
-    parent = "subpanel_frame",
+    parent = "bordered_frame",
     width = 350
 }
