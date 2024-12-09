@@ -73,6 +73,9 @@ local function loadDefaultsForPlayer(index)
 
 	if not storage.snip[index].jpg_quality then storage.snip[index].jpg_quality = 100 end
 	log(l.info("jpg quality is " .. storage.snip[index].jpg_quality))
+	
+	if storage.snip[index].enableScreenshotButton == nil then storage.snip[index].enableScreenshotButton = false end
+	log(l.info("enableScreenshotButton is " .. (storage.snip[index].enableScreenshotButton and "true" or "false")))
 
 
 	shooter.evaluateZoomForPlayerAndAllSurfaces(index)

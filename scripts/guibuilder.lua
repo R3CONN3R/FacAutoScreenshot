@@ -754,7 +754,7 @@ function guibuilder.createGuiFrame(player, guiInstance)
         type = "frame",
         name = "content_frame",
         direction = "vertical",
-        style = "window_content_frame_deep"
+        --style = "window_content_frame_deep"
     })
 end
 
