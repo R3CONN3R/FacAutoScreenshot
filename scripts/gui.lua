@@ -20,7 +20,7 @@ function gui.initialize(player, queueHasEntries)
         flowButton.destroy()
     end
     -- adding the button
-    global.flowButton[player.index] = buttonFlow.add{
+    storage.flowButton[player.index] = buttonFlow.add{
         type = "sprite-button",
         name = guiBuilder.flowButtonName,
         sprite = queueHasEntries and "FAS-recording-icon" or "FAS-icon",
@@ -35,20 +35,20 @@ function gui.initialize(player, queueHasEntries)
 end
 
 local function guiIsValid(player)
-    return global.gui[player] and global.gui[player].mainFrame.valid
+    return storage.gui[player] and storage.gui[player].mainFrame.valid
 end
 
 function gui.highlightSelectAreaButton(player)
     -- happens if the shortcut was clicked before the ui was created
     if guiIsValid(player) then
-        global.gui[player].select_area_button.style = "fas_clicked_tool_button"
+        storage.gui[player].select_area_button.style = "fas_clicked_tool_button"
     end
 end
 
 function gui.unhighlightSelectAreaButton(player)
     -- happens if the shortcut was clicked before the ui was created
     if guiIsValid(player) then
-        global.gui[player].select_area_button.style = "tool_button"
+        storage.gui[player].select_area_button.style = "tool_button"
     end
 end
 
@@ -60,7 +60,7 @@ function gui.togglegui(index)
         guiBuilder.createGuiFrame(player, gui)
         
     else
-        if not guiFrame.visible and not global.auto.amount then
+        if not guiFrame.visible and not storage.auto.amount then
             gui.refreshStatusCountdown()
         end
         guiFrame.visible = not guiFrame.visible
@@ -69,7 +69,7 @@ function gui.togglegui(index)
     
     if not guiFrame or guiFrame.visible then
         log(l.info("gui is now visible"))
-        if global.snip[index].area.width then
+        if storage.snip[index].area.width then
             gui.refreshEstimates(index)
             gui.refreshStartHighResScreenshotButton(index)
         end
@@ -82,42 +82,42 @@ end
 function gui.refreshStartHighResScreenshotButton(index)
     -- {1, 16384}
     if guiIsValid(index) then
-        global.gui[index].start_area_screenshot_button.enabled =
-            global.snip[index].enableScreenshotButton
+        storage.gui[index].start_area_screenshot_button.enabled =
+            storage.snip[index].enableScreenshotButton
     end
 end
 
 function gui.refreshEstimates(index)
     if not guiIsValid(index) then return end
 
-    if not global.snip[index].resolution then
+    if not storage.snip[index].resolution then
         -- happens if the zoom slider is moved before an area was selected so far
-        global.gui[index].resolution_value.caption = {"FAS-no-area-selected"}
-        global.gui[index].estimated_filesize_value.caption = "-"
+        storage.gui[index].resolution_value.caption = {"FAS-no-area-selected"}
+        storage.gui[index].estimated_filesize_value.caption = "-"
         return
     end
 
-    global.gui[index].resolution_value.caption = global.snip[index].resolution
-    global.gui[index].estimated_filesize_value.caption = global.snip[index].filesize
+    storage.gui[index].resolution_value.caption = storage.snip[index].resolution
+    storage.gui[index].estimated_filesize_value.caption = storage.snip[index].filesize
 end
 
 function gui.resetAreaValues(index)
     -- is nil if the ui was not opened before using the delete shortcut
     if guiIsValid(index) then
-        global.gui[index].x_value.text = ""
-        global.gui[index].y_value.text = ""
-        global.gui[index].width_value.text = ""
-        global.gui[index].height_value.text = ""
+        storage.gui[index].x_value.text = ""
+        storage.gui[index].y_value.text = ""
+        storage.gui[index].width_value.text = ""
+        storage.gui[index].height_value.text = ""
     end
 end
 
 function gui.refreshAreaValues(index)
     -- happens if the shortcuts were pressed before the ui was opened
     if guiIsValid(index) then
-        global.gui[index].x_value.text = tostring(global.snip[index].area.left)
-        global.gui[index].y_value.text = tostring(global.snip[index].area.top)
-        global.gui[index].width_value.text = tostring(global.snip[index].area.width)
-        global.gui[index].height_value.text = tostring(global.snip[index].area.height)
+        storage.gui[index].x_value.text = tostring(storage.snip[index].area.left)
+        storage.gui[index].y_value.text = tostring(storage.snip[index].area.top)
+        storage.gui[index].width_value.text = tostring(storage.snip[index].area.width)
+        storage.gui[index].height_value.text = tostring(storage.snip[index].area.height)
     end
 end
 
@@ -133,60 +133,60 @@ function gui.givePlayerSelectionTool(index)
 end
 
 function gui.toggle_auto_content_area(index)
-    if global.gui[index].auto_content.visible then
-        global.gui[index].auto_content_collapse.sprite = "utility/expand"
-        global.gui[index].auto_content_collapse.hovered_sprite = "utility/expand_dark"
-        global.gui[index].auto_content_collapse.clicked_sprite = "utility/expand_dark"
+    if storage.gui[index].auto_content.visible then
+        storage.gui[index].auto_content_collapse.sprite = "utility/expand"
+        storage.gui[index].auto_content_collapse.hovered_sprite = "utility/expand"
+        storage.gui[index].auto_content_collapse.clicked_sprite = "utility/expand"
     else
-        global.gui[index].auto_content_collapse.sprite = "utility/collapse"
-        global.gui[index].auto_content_collapse.hovered_sprite = "utility/collapse_dark"
-        global.gui[index].auto_content_collapse.clicked_sprite = "utility/collapse_dark"
+        storage.gui[index].auto_content_collapse.sprite = "utility/collapse"
+        storage.gui[index].auto_content_collapse.hovered_sprite = "utility/collapse"
+        storage.gui[index].auto_content_collapse.clicked_sprite = "utility/collapse"
     end
-    global.gui[index].auto_content.visible = not global.gui[index].auto_content.visible
+    storage.gui[index].auto_content.visible = not storage.gui[index].auto_content.visible
 end
 
 function gui.toggle_area_content_area(index)
-    if global.gui[index].area_content.visible then
-        global.gui[index].area_content_collapse.sprite = "utility/expand"
-        global.gui[index].area_content_collapse.hovered_sprite = "utility/expand_dark"
-        global.gui[index].area_content_collapse.clicked_sprite = "utility/expand_dark"
+    if storage.gui[index].area_content.visible then
+        storage.gui[index].area_content_collapse.sprite = "utility/expand"
+        storage.gui[index].area_content_collapse.hovered_sprite = "utility/expand"
+        storage.gui[index].area_content_collapse.clicked_sprite = "utility/expand"
     else
-        global.gui[index].area_content_collapse.sprite = "utility/collapse"
-        global.gui[index].area_content_collapse.hovered_sprite = "utility/collapse_dark"
-        global.gui[index].area_content_collapse.clicked_sprite = "utility/collapse_dark"
+        storage.gui[index].area_content_collapse.sprite = "utility/collapse"
+        storage.gui[index].area_content_collapse.hovered_sprite = "utility/collapse"
+        storage.gui[index].area_content_collapse.clicked_sprite = "utility/collapse"
     end
-    global.gui[index].area_content.visible = not global.gui[index].area_content.visible
+    storage.gui[index].area_content.visible = not storage.gui[index].area_content.visible
 end
 
 
 function gui.getStatusValue()
-    if global.auto.amount then
-        return global.auto.amount .. " / " .. global.auto.total
+    if storage.auto.amount then
+        return storage.auto.amount .. " / " .. storage.auto.total
     else
         return "-"
     end
 end
 
 function gui.setStatusValue()
-    global.auto.progressValue = global.auto.amount / global.auto.total
-    for index, player in pairs(global.gui) do
+    storage.auto.progressValue = storage.auto.amount / storage.auto.total
+    for index, player in pairs(storage.gui) do
         if l.doD then log(l.debug("player " .. index .. " found")) end
         if l.doD then log(l.debug("player.mainframe nil? " .. (player.mainFrame == nil and "true" or "false"))) end
         if player.mainFrame and player.mainFrame.valid and player.mainFrame.visible then
-            if l.doD then log(l.debug("setting status value for player " .. index .. " with amount " .. global.auto.amount .. " / " .. global.auto.total)) end
-            player.status_value.caption = global.auto.amount .. " / " .. global.auto.total
+            if l.doD then log(l.debug("setting status value for player " .. index .. " with amount " .. storage.auto.amount .. " / " .. storage.auto.total)) end
+            player.status_value.caption = storage.auto.amount .. " / " .. storage.auto.total
             if player.progress_bar.visible == false then
                 player.progress_bar.visible = true
             end
-            player.progress_bar.value = global.auto.progressValue
+            player.progress_bar.value = storage.auto.progressValue
         end
         -- set flowbutton pie progress value
     end
 end
 
 local function calculateCountdown()
-    if global.queue.nextScreenshotTimestamp ~= nil then
-        local timediff = (global.queue.nextScreenshotTimestamp - game.tick) / 60
+    if storage.queue.nextScreenshotTimestamp ~= nil then
+        local timediff = (storage.queue.nextScreenshotTimestamp - game.tick) / 60
 
         local diffSec = math.floor(timediff % 60)
         if timediff >= 60 then
@@ -202,11 +202,11 @@ end
 
 function gui.refreshStatusCountdown()
     --reset status values if still present, necessary on the first time the cooldown is set
-    if global.auto.amount then
-        global.auto.amount = nil
-        global.auto.total = nil
-        global.auto.progressValue = nil
-        for _, player in pairs(global.gui) do
+    if storage.auto.amount then
+        storage.auto.amount = nil
+        storage.auto.total = nil
+        storage.auto.progressValue = nil
+        for _, player in pairs(storage.gui) do
             if player.progress_bar and player.progress_bar.valid then
                 player.progress_bar.visible = false
             end
@@ -215,7 +215,7 @@ function gui.refreshStatusCountdown()
     end
     
     local countdown = calculateCountdown()
-    for index, player in pairs(global.gui) do
+    for index, player in pairs(storage.gui) do
         if player.mainFrame and player.mainFrame.valid and player.mainFrame.visible then
             -- when the status is '-' this would always refresh without the if here
             if (player.status_value.caption ~= countdown) then

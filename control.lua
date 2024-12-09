@@ -8,71 +8,71 @@ local snip = require("scripts.snip")
 local function loadDefaultsForPlayer(index)
 	log(l.info("loading defaults for player " .. index))
 
-	if not global.auto[index] then
-		l.info("global.auto was nil")
-		global.auto[index] = {}
+	if not storage.auto[index] then
+		l.info("storage.auto was nil")
+		storage.auto[index] = {}
 	end
-	if not global.auto[index].zoom then
-		l.info("global.auto.zoom was nil")
-		global.auto[index].zoom = {}
+	if not storage.auto[index].zoom then
+		l.info("storage.auto.zoom was nil")
+		storage.auto[index].zoom = {}
 	end
-	if not global.auto[index].zoomLevel then
-		l.info("global.auto.zoomlevel was nil")
-		global.auto[index].zoomLevel = {}
-	end
-
-	if global.auto[index].interval == nil then global.auto[index].interval = 10 * 60 * 60 end
-	log(l.info("interval is " .. (global.auto[index].interval / 60 / 60)) .. " min")
-
-	if global.auto[index].resX == nil then
-		global.auto[index].resolution_index = 3
-		global.auto[index].resX = 3840
-		global.auto[index].resY = 2160
+	if not storage.auto[index].zoomLevel then
+		l.info("storage.auto.zoomlevel was nil")
+		storage.auto[index].zoomLevel = {}
 	end
 
-	log(l.info("resolution is " .. global.auto[index].resX .. "x" .. global.auto[index].resY))
+	if storage.auto[index].interval == nil then storage.auto[index].interval = 10 * 60 * 60 end
+	log(l.info("interval is " .. (storage.auto[index].interval / 60 / 60)) .. " min")
 
-	if global.auto[index].singleScreenshot == nil then global.auto[index].singleScreenshot = true end
-	log(l.info("singleScreenshot is " .. (global.auto[index].singleScreenshot and "on" or "off")))
+	if storage.auto[index].resX == nil then
+		storage.auto[index].resolution_index = 3
+		storage.auto[index].resX = 3840
+		storage.auto[index].resY = 2160
+	end
 
-	if global.auto[index].splittingFactor == nil then global.auto[index].splittingFactor = 1 end
-	log(l.info("splittingFactor is " .. global.auto[index].splittingFactor))
+	log(l.info("resolution is " .. storage.auto[index].resX .. "x" .. storage.auto[index].resY))
 
-	if not global.auto[index].doSurface then global.auto[index].doSurface = {} end
+	if storage.auto[index].singleScreenshot == nil then storage.auto[index].singleScreenshot = true end
+	log(l.info("singleScreenshot is " .. (storage.auto[index].singleScreenshot and "on" or "off")))
+
+	if storage.auto[index].splittingFactor == nil then storage.auto[index].splittingFactor = 1 end
+	log(l.info("splittingFactor is " .. storage.auto[index].splittingFactor))
+
+	if not storage.auto[index].doSurface then storage.auto[index].doSurface = {} end
 	for _, surface in pairs(game.surfaces) do
 		log(l.info("does surface " .. surface.name .. ": " ..
-		(global.auto[index].doSurface[surface.name] and "true" or "false")))
+		(storage.auto[index].doSurface[surface.name] and "true" or "false")))
 	end
 
-	if not global.snip[index] then
-		l.info("global.snip was nil")
-		global.snip[index] = {}
+	if not storage.snip[index] then
+		l.info("storage.snip was nil")
+		storage.snip[index] = {}
 	end
-	if not global.snip[index].area then
-		l.info("global.snip.area was nil")
-		global.snip[index].area = {}
+	if not storage.snip[index].area then
+		l.info("storage.snip.area was nil")
+		storage.snip[index].area = {}
 	end
 
-	if global.snip[index].showAltMode == nil then global.snip[index].showAltMode = false end
-	log(l.info("snip show alt mode is " .. (global.snip[index].showAltMode and "true" or "false")))
+	if storage.snip[index].showAltMode == nil then storage.snip[index].showAltMode = false end
+	log(l.info("snip show alt mode is " .. (storage.snip[index].showAltMode and "true" or "false")))
 
-	if global.snip[index].showUI == nil then global.snip[index].showUI = false end
-	log(l.info("snip show ui is " .. (global.snip[index].showUI and "true" or "false")))
+	if storage.snip[index].showUI == nil then storage.snip[index].showUI = false end
+	log(l.info("snip show ui is " .. (storage.snip[index].showUI and "true" or "false")))
 
-	if global.snip[index].showCursorBuildingPreview == nil then global.snip[index].showCursorBuildingPreview = false end
-	log(l.info("snip show cursor building preview is " .. (global.snip[index].showCursorBuildingPreview and "true" or "false")))
+	if storage.snip[index].showCursorBuildingPreview == nil then storage.snip[index].showCursorBuildingPreview = false end
+	log(l.info("snip show cursor building preview is " .. (storage.snip[index].showCursorBuildingPreview and "true" or "false")))
 
-	if global.snip[index].useAntiAlias == nil then global.snip[index].useAntiAlias = false end
-	log(l.info("snip use anti alias is " .. (global.snip[index].useAntiAlias and "true" or "false")))
+	if storage.snip[index].useAntiAlias == nil then storage.snip[index].useAntiAlias = false end
+	log(l.info("snip use anti alias is " .. (storage.snip[index].useAntiAlias and "true" or "false")))
 
-	if not global.snip[index].zoomLevel then global.snip[index].zoomLevel = 1 end
-	log(l.info("snip zoomlevel is " .. global.snip[index].zoomLevel))
+	if not storage.snip[index].zoomLevel then storage.snip[index].zoomLevel = 1 end
+	log(l.info("snip zoomlevel is " .. storage.snip[index].zoomLevel))
 
-	if not global.snip[index].output_format_index then global.snip[index].output_format_index = 1 end
-	log(l.info("snip output format index is " .. global.snip[index].output_format_index))
+	if not storage.snip[index].output_format_index then storage.snip[index].output_format_index = 1 end
+	log(l.info("snip output format index is " .. storage.snip[index].output_format_index))
 
-	if not global.snip[index].jpg_quality then global.snip[index].jpg_quality = 100 end
-	log(l.info("jpg quality is " .. global.snip[index].jpg_quality))
+	if not storage.snip[index].jpg_quality then storage.snip[index].jpg_quality = 100 end
+	log(l.info("jpg quality is " .. storage.snip[index].jpg_quality))
 
 
 	shooter.evaluateZoomForPlayerAndAllSurfaces(index)
@@ -88,13 +88,13 @@ end
 local function initialize()
 	log(l.info("initialize"))
 
-    global.verbose = settings.global["FAS-enable-debug"].value
-	if not global.auto then global.auto = {} end
-	if not global.snip then global.snip = {} end
-	global.tracker = {}
-	global.gui = {}
-	global.flowButton = {}
-	if not global.queue then global.queue = {} end
+    storage.verbose = settings.global["FAS-enable-debug"].value
+	if not storage.auto then storage.auto = {} end
+	if not storage.snip then storage.snip = {} end
+	storage.tracker = {}
+	storage.gui = {}
+	storage.flowButton = {}
+	if not storage.queue then storage.queue = {} end
 
 	for _, surface in pairs(game.surfaces) do
 		basetracker.initializeSurface(surface.name)
@@ -124,8 +124,8 @@ local function on_configuration_changed(event)
 end
 
 local function on_runtime_mod_setting_changed(event)
-	if event.setting_type == "runtime-global" then
-        global.verbose = settings.global["FAS-enable-debug"].value
+	if event.setting_type == "runtime-storage" then
+        storage.verbose = settings.storage["FAS-enable-debug"].value
 		log(l.info("debug mode is now " .. (l.doD() and "on" or "off")))
 	end
 end
@@ -142,11 +142,11 @@ local function on_nth_tick(event)
 
 		if l.doD then log(l.debug("player ", player.name, " with index ", player.index, " found")) end
 		if l.doD then log(l.debug("do screenshot:   ", queue.doesAutoScreenshot(player.index))) end
-		if l.doD then log(l.debug("interval:        ", global.auto[player.index].interval)) end
-		if l.doD then log(l.debug("singleScreenshot:", global.auto[player.index].singleScreenshot)) end
+		if l.doD then log(l.debug("interval:        ", storage.auto[player.index].interval)) end
+		if l.doD then log(l.debug("singleScreenshot:", storage.auto[player.index].singleScreenshot)) end
 		if l.doD then log(l.debug("tick:            ", game.tick)) end
 
-		if queue.doesAutoScreenshot(player.index) and (event.tick % global.auto[player.index].interval == 0) then
+		if queue.doesAutoScreenshot(player.index) and (event.tick % storage.auto[player.index].interval == 0) then
 			queue.registerPlayerToQueue(player.index)
 			newRegistrations = true
 		end
@@ -184,19 +184,19 @@ end
 local function on_player_cursor_stack_changed(event)
     log(l.info("on_player_cursor_stack_changed triggered for player " .. event.player_index))
     local index = event.player_index
-    if global.snip[index].doesSelection then
+    if storage.snip[index].doesSelection then
         local stack = game.get_player(index).cursor_stack
         if stack and (not stack.valid_for_read or stack.name ~= "FAS-selection-tool") then
             log(l.info("reverting to not selecting area"))
-            global.snip[index].doesSelection = false
+            storage.snip[index].doesSelection = false
             gui.unhighlightSelectAreaButton(index)
         end
     end
 end
 
 local function on_built_entity(event)
-	local pos = event.created_entity.position
-	local surface = event.created_entity.surface.name
+	local pos = event.entity.position
+	local surface = event.entity.surface.name
 	if l.doD then log(l.debug("entity built on surface", surface, "at pos:", pos.x, "x", pos.y)) end
 	if basetracker.breaksCurrentLimits(pos, surface) then
 		basetracker.evaluateMinMaxFromPosition(pos, surface)
@@ -225,9 +225,9 @@ end
 
 function handlers.surface_checkbox_click(event)
     log(l.info("surface_checkbox was triggered for player " .. event.player_index))
-    global.auto[event.player_index].doSurface[event.element.caption] = event.element.state
+    storage.auto[event.player_index].doSurface[event.element.caption] = event.element.state
 
-    if global.auto[event.player_index].zoomLevel[event.element.caption] == nil then
+    if storage.auto[event.player_index].zoomLevel[event.element.caption] == nil then
         if l.doD then log(l.debug("Zoomlevel was nil when changing surface selection")) end
         shooter.evaluateZoomForPlayerAndAllSurfaces(event.player_index)
     end
@@ -238,8 +238,8 @@ end
 function handlers.single_tick_value_click(event)
     log(l.info(("single tick value was changed for player " .. event.player_index)))
     local doesSingle = event.element.state
-    global.auto[event.player_index].singleScreenshot = doesSingle
-    global.gui[event.player_index].splitting_factor_flow.visible = not doesSingle
+    storage.auto[event.player_index].singleScreenshot = doesSingle
+    storage.gui[event.player_index].splitting_factor_flow.visible = not doesSingle
 end
 
 function handlers.area_content_collapse_click(event)
@@ -250,9 +250,9 @@ end
 function handlers.select_area_button_click(event)
 	log(l.info("select area button was clicked by player " .. event.player_index))
 	local index = event.player_index
-	global.snip[index].doesSelection = not global.snip[index].doesSelection
+	storage.snip[index].doesSelection = not storage.snip[index].doesSelection
 
-	if global.snip[index].doesSelection then
+	if storage.snip[index].doesSelection then
 		gui.givePlayerSelectionTool(index)
 		gui.highlightSelectAreaButton(index)
 	else
@@ -274,31 +274,31 @@ end
 
 function handlers.daytime_switch_click(event)
     log(l.info("daytime switch was switched for player " .. event.player_index .. " to state " .. event.element.switch_state))
-    global.snip[event.player_index].daytime_state = event.element.switch_state
+    storage.snip[event.player_index].daytime_state = event.element.switch_state
 end
 
 function handlers.show_ui_value_click(event)
     log(l.info("show ui tickbox was clicked for player " .. event.player_index))
-    global.snip[event.player_index].showUI = event.element.state
-    if l.doD then log(l.debug("snip show ui is " .. (global.snip[event.player_index].showUI and "true" or "false"))) end
+    storage.snip[event.player_index].showUI = event.element.state
+    if l.doD then log(l.debug("snip show ui is " .. (storage.snip[event.player_index].showUI and "true" or "false"))) end
 end
 
 function handlers.alt_mode_value_click(event)
     log(l.info("show alt mode tickbox was clicked for player " .. event.player_index))
-    global.snip[event.player_index].showAltMode = event.element.state
-    if l.doD then log(l.debug("snip show alt mode is " .. (global.snip[event.player_index].showAltMode and "true" or "false"))) end
+    storage.snip[event.player_index].showAltMode = event.element.state
+    if l.doD then log(l.debug("snip show alt mode is " .. (storage.snip[event.player_index].showAltMode and "true" or "false"))) end
 end
 
 function handlers.show_cursor_building_preview_value_click(event)
     log(l.info("show cursor building preview tickbox was clicked for player " .. event.player_index))
-    global.snip[event.player_index].showCursorBuildingPreview = event.element.state
-    if l.doD then log(l.debug("snip show cursor building preview is " .. (global.snip[event.player_index].showCursorBuildingPreview and "true" or "false"))) end
+    storage.snip[event.player_index].showCursorBuildingPreview = event.element.state
+    if l.doD then log(l.debug("snip show cursor building preview is " .. (storage.snip[event.player_index].showCursorBuildingPreview and "true" or "false"))) end
 end
 
 function handlers.use_anti_alias_value_click(event)
     log(l.info("use anti alias tickbox was clicked for player " .. event.player_index))
-    global.snip[event.player_index].useAntiAlias = event.element.state
-    if l.doD then log(l.debug("snip ue anti alias is " .. (global.snip[event.player_index].useAntiAlias and "true" or "false"))) end
+    storage.snip[event.player_index].useAntiAlias = event.element.state
+    if l.doD then log(l.debug("snip ue anti alias is " .. (storage.snip[event.player_index].useAntiAlias and "true" or "false"))) end
 end
 
 function handlers.start_area_screenshot_button_click(event)
@@ -313,15 +313,15 @@ end
 function handlers.splitting_factor_slider_value_changed(event)
     log(l.info("splitting factor was changed for player " .. event.player_index))
     local splittingFactor = math.pow(4, event.element.slider_value)
-    global.auto[event.player_index].splittingFactor = splittingFactor
-    global.gui[event.player_index].splitting_factor_value.text = tostring(splittingFactor)
+    storage.auto[event.player_index].splittingFactor = splittingFactor
+    storage.gui[event.player_index].splitting_factor_value.text = tostring(splittingFactor)
 end
 
 function handlers.zoom_slider_value_changed(event)
     log(l.info("zoom slider was moved"))
     local level = math.pow(2, event.element.slider_value)
-    global.gui[event.player_index].zoom_value.text = tostring(level)
-    global.snip[event.player_index].zoomLevel = level
+    storage.gui[event.player_index].zoom_value.text = tostring(level)
+    storage.snip[event.player_index].zoomLevel = level
     snip.calculateEstimates(event.player_index)
     gui.refreshEstimates(event.player_index)
     gui.refreshStartHighResScreenshotButton(event.player_index)
@@ -330,8 +330,8 @@ end
 function handlers.area_jpg_quality_slider_value_changed(event)
     log(l.info("quality slider was moved"))
     local level = event.element.slider_value
-    global.gui[event.player_index].area_jpg_quality_value.text = tostring(level)
-    global.snip[event.player_index].jpg_quality = level
+    storage.gui[event.player_index].area_jpg_quality_value.text = tostring(level)
+    storage.snip[event.player_index].jpg_quality = level
 end
 
 --#endregion value changed handlers
@@ -342,11 +342,11 @@ function handlers.interval_value_text_changed(event)
     local suggestion = tonumber(event.text)
     if suggestion == nil then return end
     if suggestion < 1 or suggestion > 60 then
-        event.element.text = tostring(global.auto[event.player_index].interval / 3600)
+        event.element.text = tostring(storage.auto[event.player_index].interval / 3600)
         return
     end
 
-    global.auto[event.player_index].interval = suggestion * 60 * 60
+    storage.auto[event.player_index].interval = suggestion * 60 * 60
 
     queue.refreshNextScreenshotTimestamp()
     gui.refreshStatusCountdown()
@@ -354,7 +354,7 @@ end
 
 function handlers.area_output_name_text_changed(event)
     log(l.info("area output name changed"))
-    global.snip[event.player_index].outputName = event.element.text
+    storage.snip[event.player_index].outputName = event.element.text
 end
 
 
@@ -366,37 +366,37 @@ function handlers.auto_resolution_value_selection(event)
 ))
     local resolution_index = event.element.selected_index
     if resolution_index == 1 then
-        global.auto[event.player_index].resolution_index = 1
-        global.auto[event.player_index].resX = 15360;
-        global.auto[event.player_index].resY = 8640;
+        storage.auto[event.player_index].resolution_index = 1
+        storage.auto[event.player_index].resX = 15360;
+        storage.auto[event.player_index].resY = 8640;
     elseif resolution_index == 2 then
-        global.auto[event.player_index].resolution_index = 2
-        global.auto[event.player_index].resX = 7680;
-        global.auto[event.player_index].resY = 4320;
+        storage.auto[event.player_index].resolution_index = 2
+        storage.auto[event.player_index].resX = 7680;
+        storage.auto[event.player_index].resY = 4320;
     elseif resolution_index == 3 then
-        global.auto[event.player_index].resolution_index = 3
-        global.auto[event.player_index].resX = 3840
-        global.auto[event.player_index].resY = 2160
+        storage.auto[event.player_index].resolution_index = 3
+        storage.auto[event.player_index].resX = 3840
+        storage.auto[event.player_index].resY = 2160
     elseif resolution_index == 4 then
-        global.auto[event.player_index].resolution_index = 4
-        global.auto[event.player_index].resX = 1920
-        global.auto[event.player_index].resY = 1080
+        storage.auto[event.player_index].resolution_index = 4
+        storage.auto[event.player_index].resX = 1920
+        storage.auto[event.player_index].resY = 1080
     elseif resolution_index == 5 then
-        global.auto[event.player_index].resolution_index = 5
-        global.auto[event.player_index].resX = 1280
-        global.auto[event.player_index].resY = 720
+        storage.auto[event.player_index].resolution_index = 5
+        storage.auto[event.player_index].resX = 1280
+        storage.auto[event.player_index].resY = 720
     else
         log(l.warn("could not match resolution index " .. resolution_index))
     end
-    global.auto[event.player_index].zoom = {}
-    global.auto[event.player_index].zoomLevel = {}
+    storage.auto[event.player_index].zoom = {}
+    storage.auto[event.player_index].zoomLevel = {}
     shooter.evaluateZoomForPlayerAndAllSurfaces(event.player_index)
 end
 
 function handlers.area_output_format_selection(event)
     log(l.info("area output format changed"))
-    global.snip[event.player_index].output_format_index = event.element.selected_index
-    global.gui[event.player_index].area_jpg_quality_flow.visible = event.element.selected_index == 2
+    storage.snip[event.player_index].output_format_index = event.element.selected_index
+    storage.gui[event.player_index].area_jpg_quality_flow.visible = event.element.selected_index == 2
     gui.refreshEstimates(event.player_index)
 end
 
@@ -453,7 +453,7 @@ local function handleAreaChange(index)
     snip.calculateEstimates(index)
     snip.checkIfScreenshotPossible(index)
 
-    if global.gui[index] then
+    if storage.gui[index] then
         gui.refreshAreaValues(index)
         gui.refreshEstimates(index)
         gui.refreshStartHighResScreenshotButton(index)
@@ -461,24 +461,24 @@ local function handleAreaChange(index)
 end
 
 local function on_left_click(event)
-    if global.snip[event.player_index].doesSelection then
+    if storage.snip[event.player_index].doesSelection then
         log(l.info("left click event fired while doing selection by player " .. event.player_index))
-        global.snip[event.player_index].areaLeftClick = event.cursor_position
-        if game.get_player(event.player_index).surface.name ~= global.snip[event.player_index].surface_name then
+        storage.snip[event.player_index].areaLeftClick = event.cursor_position
+        if game.get_player(event.player_index).surface.name ~= storage.snip[event.player_index].surface_name then
             -- Surface has changed, new area
-            global.snip[event.player_index].areaRightClick = nil
+            storage.snip[event.player_index].areaRightClick = nil
         end
 	    handleAreaChange(event.player_index)
     end
 end
 
 local function on_right_click(event)
-    if global.snip[event.player_index].doesSelection then
+    if storage.snip[event.player_index].doesSelection then
         log(l.info("right click event fired while doing selection by player " .. event.player_index))
-        global.snip[event.player_index].areaRightClick = event.cursor_position
-        if game.get_player(event.player_index).surface.name ~= global.snip[event.player_index].surface_name then
-            -- Surface has changed, new area
-            global.snip[event.player_index].areaLeftClick = nil
+        storage.snip[event.player_index].areaRightClick = event.cursor_position
+        if game.get_player(event.player_index).surface.name ~= storage.snip[event.player_index].surface_name then
+   --         Surface has changed, new area
+            storage.snip[event.player_index].areaLeftClick = nil
         end
 		handleAreaChange(event.player_index)
     end
@@ -488,7 +488,7 @@ local function on_selection_toggle(event)
 	log(l.info("selection toggle shortcut was triggered by player " .. event.player_index))
     handlers.select_area_button_click(event)
 
-	if not global.snip[event.player_index].doesSelection and global.snip[event.player_index].area.width then
+	if not storage.snip[event.player_index].doesSelection and storage.snip[event.player_index].area.width then
         shooter.renderAreaScreenshot(event.player_index)
 	end
 end
@@ -509,19 +509,19 @@ local function on_pre_surface_deleted(event)
 
     -- delete entries of deleted surface
     for _, player in pairs(game.players) do
-        if global.auto[player.index] ~= nil then
+        if storage.auto[player.index] ~= nil then
             local name = game.get_surface(event.surface_index).name
-            if global.auto[player.index].doSurface[name] ~= nil then
-                global.auto[player.index].doSurface[name] = nil
+            if storage.auto[player.index].doSurface[name] ~= nil then
+                storage.auto[player.index].doSurface[name] = nil
             end
 
             -- if the surface was in queue for a screenshot
-            if global.queue[player.index] and global.queue[player.index][name] then
+            if storage.queue[player.index] and storage.queue[player.index][name] then
                 queue.remove(player.index, name)
             end
 
             -- if there was an area selection on the surface
-            if global.snip[player.index].surface_name == name then
+            if storage.snip[player.index].surface_name == name then
                 snip.resetArea(player.index)
             end
         end
@@ -547,7 +547,7 @@ end
 
 local function on_surface_renamed(event)
     log(l.info("surface " .. event.old_name .. " renamed to " .. event.new_name))
-    for _, playerData in pairs(global.auto) do
+    for _, playerData in pairs(storage.auto) do
         if playerData.doSurface[event.old_name] ~= nil then
             playerData.doSurface[event.new_name] = playerData.doSurface[event.old_name]
             playerData.doSurface[event.old_name] = nil
@@ -555,8 +555,8 @@ local function on_surface_renamed(event)
     end
 
     for _, player in pairs(game.players) do
-        if global.snip[player.index].surface_name == event.old_name then
-            global.snip[player.index].surface_name = event.new_name
+        if storage.snip[player.index].surface_name == event.old_name then
+            storage.snip[player.index].surface_name = event.new_name
         end
     end
 

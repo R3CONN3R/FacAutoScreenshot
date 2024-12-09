@@ -11,7 +11,7 @@ local q = {}
 ]]--
 
 function q.initialize(index)
-	global.queue[index] = {}
+	storage.queue[index] = {}
 end
 
 local function getDivisor(index, surface)
@@ -19,7 +19,7 @@ local function getDivisor(index, surface)
 	--  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16
 	--  1,  2,  2,  2,  4,  4,  4,  4,  8,  8,  8,  8,  8,  8,  8,  8, 16 from there
 
-	local zoomLevel = global.auto[index].zoomLevel[surface]
+	local zoomLevel = storage.auto[index].zoomLevel[surface]
 	local divisor
 	if zoomLevel == 1 then
 		divisor = 1
@@ -33,7 +33,7 @@ local function getDivisor(index, surface)
 		divisor = 16
 	end
 	
-	divisor = divisor * (math.sqrt(global.auto[index].splittingFactor))
+	divisor = divisor * (math.sqrt(storage.auto[index].splittingFactor))
 
 	if l.doD then log(l.debug("returned divisor " .. divisor .. " from input " .. zoomLevel)) end
 
@@ -42,13 +42,13 @@ end
 
 local function registerPlayerSingleScreenshots(index)
 	for _, surface in pairs(game.surfaces) do
-		if global.auto[index].doSurface[surface.name] then
-			global.queue[index][surface.name] = {
+		if storage.auto[index].doSurface[surface.name] then
+			storage.queue[index][surface.name] = {
 				isSingleScreenshot = true,
 				surface = surface.name,
-				resX = global.auto[index].resX,
-				resY = global.auto[index].resY,
-				zoom = global.auto[index].zoom[surface.name]
+				resX = storage.auto[index].resX,
+				resY = storage.auto[index].resY,
+				zoom = storage.auto[index].zoom[surface.name]
 			}
 		end
 	end
@@ -56,14 +56,14 @@ end
 
 local function registerPlayerFragmentedScreenshots(index)
 	for _, surface in pairs(game.surfaces) do
-		if global.auto[index].doSurface[surface.name] then
+		if storage.auto[index].doSurface[surface.name] then
 			local numberOfTiles = getDivisor(index, surface.name)
-			local resX = global.auto[index].resX
-			local resY = global.auto[index].resY
-			local zoom = global.auto[index].zoom[surface.name]
+			local resX = storage.auto[index].resX
+			local resY = storage.auto[index].resY
+			local zoom = storage.auto[index].zoom[surface.name]
 
 			-- like calculating zoom, but reverse
-			-- cannot take limits from global, as we want the border of the screenshot, not the base
+			-- cannot take limits from storage, as we want the border of the screenshot, not the base
 			local rightborder = resX / (zoom * 2 * 32)
 			local bottomborder = resY / (zoom * 2 * 32)
 
@@ -91,7 +91,7 @@ local function registerPlayerFragmentedScreenshots(index)
 			if l.doD then log(l.debug("zoom:       " .. fragment["zoom"])) end
 			if l.doD then log(l.debug("title:      " .. fragment["title"])) end
 
-			global.queue[index][surface.name] = fragment
+			storage.queue[index][surface.name] = fragment
 		end
 	end
 end
@@ -99,10 +99,10 @@ end
 local function getNextEntry(index)
 	-- apparently this can happen if there was a player connected on save
 	-- but is no longer connected on load, whilst the configuration changed
-	if not global.queue[index] then return nil end
+	-- if not storage.queue[index] then return nil end
 
 	for _, surface in pairs(game.surfaces) do
-		local entry = global.queue[index][surface.name]
+		local entry = storage.queue[index][surface.name]
 		if entry then
 			return entry
 		end
@@ -119,7 +119,7 @@ function q.registerPlayerToQueue(index)
 	log(l.info("registering player to screenshot list"))
 	if not q.hasAnyEntries() then
 		for _, player in pairs(game.connected_players) do
-			global.flowButton[player.index].sprite = "FAS-recording-icon"
+			storage.flowButton[player.index].sprite = "FAS-recording-icon"
 		end
 	else
 		if hasEntriesForPlayer(index) then
@@ -129,7 +129,7 @@ function q.registerPlayerToQueue(index)
 		end
 	end
 
-	if global.auto[index].singleScreenshot then
+	if storage.auto[index].singleScreenshot then
 		registerPlayerSingleScreenshots(index)
 	else
 		registerPlayerFragmentedScreenshots(index)
@@ -139,7 +139,7 @@ end
 
 function q.doesAutoScreenshot(index)
 	for _, surface in pairs(game.surfaces) do
-		if global.auto[index].doSurface[surface.name] then
+		if storage.auto[index].doSurface[surface.name] then
 			return true
 		end
 	end
@@ -150,8 +150,8 @@ function q.refreshNextScreenshotTimestamp()
 	local closest
 	for _, player in pairs(game.connected_players) do
 		if q.doesAutoScreenshot(player.index) then
-			local times = math.floor(game.tick / global.auto[player.index].interval)
-			local next = global.auto[player.index].interval * (times + 1)
+			local times = math.floor(game.tick / storage.auto[player.index].interval)
+			local next = storage.auto[player.index].interval * (times + 1)
 			if closest == nil or next < closest then
 				closest = next
 			end
@@ -159,17 +159,17 @@ function q.refreshNextScreenshotTimestamp()
 	end
 
 	if closest then
-		global.queue.nextScreenshotTimestamp = closest
+		storage.queue.nextScreenshotTimestamp = closest
 	else
-		global.queue.nextScreenshotTimestamp = nil
+		storage.queue.nextScreenshotTimestamp = nil
 	end
 end
 
 function q.remove(index, surface)
-	global.queue[index][surface] = nil
+	storage.queue[index][surface] = nil
 	if not q.hasAnyEntries() then
 		for _, player in pairs(game.connected_players) do
-			global.flowButton[player.index].sprite = "FAS-icon"
+			storage.flowButton[player.index].sprite = "FAS-icon"
 		end
 	end
 end
@@ -214,7 +214,7 @@ function q.executeNextStep()
 				job.specs.offset.y = job.specs.offset.y + 1
 				if (job.specs.offset.y >= job.specs.numberOfTiles) then
 					--all screenshots have been done, return to countdown
-					-- table.remove(global.queue.nextScreenshot, 1)
+					-- table.remove(storage.queue.nextScreenshot, 1)
 					-- queue.refreshNextScreenshotTimestamp()
 					q.remove(job.index, job.specs.surface)
 				end

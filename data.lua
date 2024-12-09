@@ -28,18 +28,22 @@ data:extend{
         key_sequence = ""
     },
     {
-        type = "selection-tool",
-        name = "FAS-selection-tool",
+		type = "selection-tool",
+		name = "FAS-selection-tool",
         icon = "__FacAutoScreenshot__/graphics/FAS-24px.png",
         icon_size = 24,
-        flags = {"hidden", "not-stackable", "spawnable", "only-in-cursor"},
-        stack_size = 1,
-        selection_color = {0, 0, 0, 0},
-        alt_selection_color = {0, 0, 0, 0},
-        selection_mode = {"nothing"},
-        alt_selection_mode = {"nothing"},
-        selection_cursor_box_type = "entity",
-        alt_selection_cursor_box_type = "entity",
-        mouse_cursor = "selection-tool-cursor"
+		select = {
+		  border_color = { r = 1, g = 0.5, b = 0 },
+		  cursor_box_type = "entity",
+		  mode = "nothing"
+		},
+		alt_select = {
+		  border_color = { r = 0, g = 0, b = 0 },
+		  cursor_box_type = "entity",
+		  mode = "nothing",
+		  entity_filters = filter
+		},
+		stack_size = 1,
+		flags = {"hide-from-bonus-gui", "only-in-cursor", "not-stackable"},
     }
 }
