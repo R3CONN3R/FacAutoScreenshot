@@ -41,14 +41,14 @@ end
 function gui.highlightSelectAreaButton(player)
     -- happens if the shortcut was clicked before the ui was created
     if guiIsValid(player) then
-        storage.gui[player].select_area_button.style = "fas_clicked_tool_button"
+        storage.gui[player].select_area_button_FAS.style = "fas_clicked_tool_button"
     end
 end
 
 function gui.unhighlightSelectAreaButton(player)
     -- happens if the shortcut was clicked before the ui was created
     if guiIsValid(player) then
-        storage.gui[player].select_area_button.style = "tool_button"
+        storage.gui[player].select_area_button_FAS.style = "tool_button"
     end
 end
 

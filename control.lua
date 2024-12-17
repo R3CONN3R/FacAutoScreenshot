@@ -127,8 +127,8 @@ local function on_configuration_changed(event)
 end
 
 local function on_runtime_mod_setting_changed(event)
-	if event.setting_type == "runtime-storage" then
-        storage.verbose = settings.storage["FAS-enable-debug"].value
+	if event.setting_type == "runtime-global" then
+        storage.verbose = settings.global["FAS-enable-debug"].value
 		log(l.info("debug mode is now " .. (l.doD() and "on" or "off")))
 	end
 end
@@ -250,7 +250,7 @@ function handlers.area_content_collapse_click(event)
 	gui.toggle_area_content_area(event.player_index)
 end
 
-function handlers.select_area_button_click(event)
+function handlers.select_area_button_FAS_click(event)
 	log(l.info("select area button was clicked by player " .. event.player_index))
 	local index = event.player_index
 	storage.snip[index].doesSelection = not storage.snip[index].doesSelection
@@ -489,7 +489,7 @@ end
 
 local function on_selection_toggle(event)
 	log(l.info("selection toggle shortcut was triggered by player " .. event.player_index))
-    handlers.select_area_button_click(event)
+    handlers.select_area_button_FAS_click(event)
 
 	if not storage.snip[event.player_index].doesSelection and storage.snip[event.player_index].area.width then
         shooter.renderAreaScreenshot(event.player_index)

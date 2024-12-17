@@ -40,8 +40,7 @@ data:extend{
 		alt_select = {
 		  border_color = { r = 0, g = 0, b = 0 },
 		  cursor_box_type = "entity",
-		  mode = "nothing",
-		  entity_filters = filter
+		  mode = "nothing"
 		},
 		stack_size = 1,
 		flags = {"hide-from-bonus-gui", "only-in-cursor", "not-stackable"},
