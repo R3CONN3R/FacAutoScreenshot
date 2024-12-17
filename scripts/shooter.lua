@@ -4,6 +4,12 @@ local shooter = {}
 
 --[[ Zoom Evalutation ]]--
 local function evaluateZoomForPlayer(index, surface)
+	--prevents a specific bug with rocket rush scenario
+	if storage.auto[index] == nil then
+		log(l.warn("storage.auto[" .. index .. "] is nil. returning"))
+		return
+	end
+
 		if l.doD then log(l.debug("ev zoom for player " .. index)) end
 		if l.doD then log(l.debug("resX: " .. storage.auto[index].resX)) end
 		if l.doD then log(l.debug("resY: " .. storage.auto[index].resY)) end

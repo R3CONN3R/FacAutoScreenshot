@@ -102,9 +102,11 @@ local function getNextEntry(index)
 	-- if not storage.queue[index] then return nil end
 
 	for _, surface in pairs(game.surfaces) do
-		local entry = storage.queue[index][surface.name]
-		if entry then
-			return entry
+		if storage.queue[index] ~= nil then -- prevents a specific bug with rocket rush scenario
+			local entry = storage.queue[index][surface.name]
+			if entry then
+				return entry
+			end
 		end
 	end
 	-- if l.doD then log(l.debug("there was no entry for player " .. index)) end
