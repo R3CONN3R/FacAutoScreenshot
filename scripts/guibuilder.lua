@@ -312,9 +312,9 @@ local function buildAreaArea(index, area_content)
     }
     area_label.style.top_margin = 4
 
-    storage.gui[index].select_area_button = area_select_flow.add{
+    storage.gui[index].select_area_button_FAS = area_select_flow.add{
         type = "sprite-button",
-        name = "select_area_button",
+        name = "select_area_button_FAS",
         sprite = "FAS-area-select-icon",
         mouse_button_filter = {"left"},
         tooltip = {"FAS-area-select-button-tooltip"},
