@@ -1,4 +1,10 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.6.2
+Date: 17.12.2024
+  Bugfixes:
+    - Fixed crash when starting rocket rush scenario
+    - Made button name unique to avoid conflict with other mods
+---------------------------------------------------------------------------------------------------
 Version: 2.6.1
 Date: 10.12.2024
   Bugfixes:
