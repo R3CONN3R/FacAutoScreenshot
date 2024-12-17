@@ -30,7 +30,7 @@ data:extend{
     {
 		type = "selection-tool",
 		name = "FAS-selection-tool",
-        icon = "__FacAutoScreenshot__/graphics/FAS-24px.png",
+        icon = "__FacAutoScreenshot_Updated__/graphics/FAS-24px.png",
         icon_size = 24,
 		select = {
 		  border_color = { r = 1, g = 0.5, b = 0 },

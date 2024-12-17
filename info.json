@@ -1,13 +1,13 @@
 {
-  "name": "FacAutoScreenshot",
-  "version": "2.6.0",
-  "title": "Screenshot Toolkit",
-  "author": "Anders142536",
+  "name": "FacAutoScreenshot_Updated",
+  "version": "2.6.1",
+  "title": "Screenshot Toolkit temp Update",
+  "author": "Anders142536, R3CONN3R",
   "description": "* Screenshots a selected area, similar to programs like the Windows Snipping Tool, Greenshot or Flameshot.\n* Automatically does screenshots of the whole base in set minute intervals, designed for timelapses.\n\nWritten to be performance friendly. Aims to be your do-it-all toolkit for screenshots.",
-  "factorio_version": "2.0.7",
+  "factorio_version": "2.0",
   "package": {
     "ignore": [
-      ".notes", "graphics/wip/**", "graphics/old/**", ".mocks/**", ".git", ".modportal/**"
+      ".notes", "graphics/wip/**", "graphics/old/**", ".mocks/**", ".git", ".modportal/**, .vscode/**"
     ]
   }
 }
