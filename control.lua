@@ -73,7 +73,7 @@ local function loadDefaultsForPlayer(index)
 
 	if not storage.snip[index].jpg_quality then storage.snip[index].jpg_quality = 100 end
 	log(l.info("jpg quality is " .. storage.snip[index].jpg_quality))
-	
+
 	if storage.snip[index].enableScreenshotButton == nil then storage.snip[index].enableScreenshotButton = false end
 	log(l.info("enableScreenshotButton is " .. (storage.snip[index].enableScreenshotButton and "true" or "false")))
 
@@ -275,7 +275,7 @@ function handlers.delete_area_button_click(event)
 	gui.refreshStartHighResScreenshotButton(event.player_index)
 end
 
-function handlers.daytime_switch_click(event)
+function handlers.daytime_switch_value_changed(event)
     log(l.info("daytime switch was switched for player " .. event.player_index .. " to state " .. event.element.switch_state))
     storage.snip[event.player_index].daytime_state = event.element.switch_state
 end
@@ -447,6 +447,11 @@ local function on_gui_selection_state_changed(event)
     log(l.info("on_gui_selection_state_changed event triggered with element name " .. event.element.name))
     callHandler(event, "_selection")
 end
+
+local function on_gui_switch_state_changed(event)
+    log(l.info("on_gui_switch_state_changed event triggered with element name " .. event.element.name))
+    callHandler(event, "_value_changed")
+end
 -- #endregion gui event handler picker
 
 
@@ -591,6 +596,7 @@ script.on_event(defines.events.on_gui_click, on_gui_click)
 script.on_event(defines.events.on_gui_value_changed, on_gui_value_changed)
 script.on_event(defines.events.on_gui_text_changed, on_gui_text_changed)
 script.on_event(defines.events.on_gui_selection_state_changed, on_gui_selection_state_changed)
+script.on_event(defines.events.on_gui_switch_state_changed , on_gui_switch_state_changed)
 
 -- shortcuts
 script.on_event("FAS-left-click", on_left_click)
