@@ -6,12 +6,6 @@ function snip.resetArea(index)
     if storage.snip[index].area.width then
         storage.snip[index].area = {}
     end
-    if storage.snip[index].areaLeftClick then
-        storage.snip[index].areaLeftClick = nil
-    end
-    if storage.snip[index].areaRightClick then
-        storage.snip[index].areaRightClick = nil
-    end
     if storage.snip[index].rec then
 		storage.snip[index].rec.destroy()
         storage.snip[index].rec = nil
@@ -27,49 +21,20 @@ function snip.resetArea(index)
     end
 end
 
-function snip.calculateArea(index)
-    if storage.snip[index].areaLeftClick == nil and storage.snip[index].areaRightClick == nil then
-        log(l.warn("something went wrong when calculating selected area, aborting"))
-        return
-    end
+function snip.calculateArea(index, new_area)
+	assert(new_area)
 
-    local top
-    local left
-    local bottom
-    local right
-
-    if storage.snip[index].areaLeftClick then
-        top = storage.snip[index].areaLeftClick.y
-        left = storage.snip[index].areaLeftClick.x
-    end
-    if storage.snip[index].areaRightClick then
-        bottom = storage.snip[index].areaRightClick.y
-        right = storage.snip[index].areaRightClick.x
-    end
-
-    if not top then
-        top = bottom
-        left = right
-    elseif not bottom then
-        bottom = top
-        right = left
-    end
-
-    if left > right then
-        local temp = left
-        left = right
-        right = temp
-    end
-
-    if top > bottom then
-        local temp = bottom
-        bottom = top
-        top = temp
-    end
+    local left   = new_area.left_top.x
+    local top    = new_area.left_top.y
+    local right  = new_area.right_bottom.x
+    local bottom = new_area.right_bottom.y
+	
+	assert(right >= right)
+	assert(bottom >= top)
 
     --rounding the limits
     top = math.floor(top)
-    left = math.floor (left)
+    left = math.floor(left)
     right = math.ceil(right)
     bottom = math.ceil(bottom)
 
@@ -149,17 +114,16 @@ function snip.calculateEstimates(index)
     storage.snip[index].filesize = size
 end
 
-function snip.checkIfScreenshotPossible(index)
+function snip.isScreenshotPossible(index)
     -- {1, 16384}
     local zoom = 1 / storage.snip[index].zoomLevel
     if not storage.snip[index].area.width then
-        storage.snip[index].enableScreenshotButton = false
+        return false
     else
         local resX = math.floor((storage.snip[index].area.right - storage.snip[index].area.left) * 32 * zoom)
         local resY = math.floor((storage.snip[index].area.bottom - storage.snip[index].area.top) * 32 * zoom)
 
-        local enable = resX < 16385 and resY < 16385
-        storage.snip[index].enableScreenshotButton = enable
+        return resX < 16385 and resY < 16385
     end
 end
 
