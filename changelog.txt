@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.6.2
+Date: 17.12.2024
+  Bugfixes:
+    - Fixed crash when starting rocket rush scenario
+    - Made button name unique to avoid conflict with other mods
+---------------------------------------------------------------------------------------------------
+Version: 2.6.1
+Date: 10.12.2024
+  Bugfixes:
+    - Forgot to change some filepath names for the fork.
+---------------------------------------------------------------------------------------------------
 Version: 2.6.0
 Date: 09.12.2024
   Other:
