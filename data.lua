@@ -4,16 +4,6 @@ require("prototypes.styles")
 data:extend{
     {
         type = "custom-input",
-        name = "FAS-left-click",
-        key_sequence = "mouse-button-1"
-    },
-    {
-        type = "custom-input",
-        name = "FAS-right-click",
-        key_sequence = "mouse-button-2"
-    },
-    {
-        type = "custom-input",
         name = "FAS-selection-toggle-shortcut",
         key_sequence = "SHIFT + ALT + S"
     },

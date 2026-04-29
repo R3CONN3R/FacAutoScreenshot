@@ -1,6 +1,7 @@
 local guiBuilder = require("guibuilder")
 local l = require("logger")
 local modGui = require("mod-gui")
+local snip = require("snip")
 
 local gui = {}
 
@@ -82,8 +83,7 @@ end
 function gui.refreshStartHighResScreenshotButton(index)
     -- {1, 16384}
     if guiIsValid(index) then
-        storage.gui[index].start_area_screenshot_button.enabled =
-            storage.snip[index].enableScreenshotButton
+        storage.gui[index].start_area_screenshot_button.enabled = snip.isScreenshotPossible(index)
     end
 end
 

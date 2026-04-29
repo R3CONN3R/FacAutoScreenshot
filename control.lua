@@ -73,9 +73,6 @@ local function loadDefaultsForPlayer(index)
 
 	if not storage.snip[index].jpg_quality then storage.snip[index].jpg_quality = 100 end
 	log(l.info("jpg quality is " .. storage.snip[index].jpg_quality))
-	
-	if storage.snip[index].enableScreenshotButton == nil then storage.snip[index].enableScreenshotButton = false end
-	log(l.info("enableScreenshotButton is " .. (storage.snip[index].enableScreenshotButton and "true" or "false")))
 
 
 	shooter.evaluateZoomForPlayerAndAllSurfaces(index)
@@ -268,7 +265,6 @@ function handlers.delete_area_button_click(event)
 	log(l.info("delete area button was clicked by player " .. event.player_index))
 	snip.resetArea(event.player_index)
     snip.calculateEstimates(event.player_index)
-    snip.checkIfScreenshotPossible(event.player_index)
 
 	gui.resetAreaValues(event.player_index)
 	gui.refreshEstimates(event.player_index)
@@ -451,10 +447,9 @@ end
 
 
 -- #region shortcuts handlers
-local function handleAreaChange(index)
-    snip.calculateArea(index)
+local function handleAreaChange(index, new_area)
+    snip.calculateArea(index, new_area)
     snip.calculateEstimates(index)
-    snip.checkIfScreenshotPossible(index)
 
     if storage.gui[index] then
         gui.refreshAreaValues(index)
@@ -463,28 +458,12 @@ local function handleAreaChange(index)
     end
 end
 
-local function on_left_click(event)
-    if storage.snip[event.player_index].doesSelection then
-        log(l.info("left click event fired while doing selection by player " .. event.player_index))
-        storage.snip[event.player_index].areaLeftClick = event.cursor_position
-        if game.get_player(event.player_index).surface.name ~= storage.snip[event.player_index].surface_name then
-            -- Surface has changed, new area
-            storage.snip[event.player_index].areaRightClick = nil
-        end
-	    handleAreaChange(event.player_index)
-    end
-end
-
-local function on_right_click(event)
-    if storage.snip[event.player_index].doesSelection then
-        log(l.info("right click event fired while doing selection by player " .. event.player_index))
-        storage.snip[event.player_index].areaRightClick = event.cursor_position
-        if game.get_player(event.player_index).surface.name ~= storage.snip[event.player_index].surface_name then
-   --         Surface has changed, new area
-            storage.snip[event.player_index].areaLeftClick = nil
-        end
-		handleAreaChange(event.player_index)
-    end
+function on_player_selected_area(event)
+	--game.print("on_player_selected_area: ".. serpent.block(event))
+	
+	if storage.snip[event.player_index].doesSelection then
+	    handleAreaChange(event.player_index, event.area)
+	end
 end
 
 local function on_selection_toggle(event)
@@ -585,6 +564,7 @@ script.on_event(defines.events.on_player_joined_game, on_player_joined_game)
 script.on_event(defines.events.on_player_left_game, on_player_left_game)
 script.on_event(defines.events.on_player_cursor_stack_changed, on_player_cursor_stack_changed)
 script.on_event(defines.events.on_built_entity, on_built_entity)
+script.on_event(defines.events.on_player_selected_area, on_player_selected_area)
 
 -- gui events
 script.on_event(defines.events.on_gui_click, on_gui_click)
@@ -593,8 +573,6 @@ script.on_event(defines.events.on_gui_text_changed, on_gui_text_changed)
 script.on_event(defines.events.on_gui_selection_state_changed, on_gui_selection_state_changed)
 
 -- shortcuts
-script.on_event("FAS-left-click", on_left_click)
-script.on_event("FAS-right-click", on_right_click)
 script.on_event("FAS-selection-toggle-shortcut", on_selection_toggle)
 script.on_event("FAS-delete-area-shortcut", on_delete_area)
 script.on_event("FAS-toggle-GUI", on_toggle_gui)
