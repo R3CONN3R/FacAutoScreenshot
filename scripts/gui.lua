@@ -14,20 +14,20 @@ end
 function gui.initialize(player, queueHasEntries)
     log(l.info("initializing gui for player " .. player.index))
     local buttonFlow = modGui.get_button_flow(player)
-    
+
     -- destroying already existing buttons in case of changes
     local flowButton = buttonFlow[guiBuilder.flowButtonName]
     if flowButton then
         flowButton.destroy()
     end
     -- adding the button
-    storage.flowButton[player.index] = buttonFlow.add{
+    storage.flowButton[player.index] = buttonFlow.add {
         type = "sprite-button",
         name = guiBuilder.flowButtonName,
         sprite = queueHasEntries and "FAS-recording-icon" or "FAS-icon",
-        visibility = true;
+        visibility = true,
     }
-    
+
     -- destroying already existing gui in case of changes
     local mainFrame = player.gui.screen[guiBuilder.mainFrameName]
     if mainFrame then
@@ -59,15 +59,14 @@ function gui.togglegui(index)
     local guiFrame = player.gui.screen[guiBuilder.mainFrameName]
     if not guiFrame then
         guiBuilder.createGuiFrame(player, gui)
-        
     else
         if not guiFrame.visible and not storage.auto.amount then
             gui.refreshStatusCountdown()
         end
         guiFrame.visible = not guiFrame.visible
     end
-    
-    
+
+
     if not guiFrame or guiFrame.visible then
         log(l.info("gui is now visible"))
         if storage.snip[index].area.width then
@@ -78,7 +77,6 @@ function gui.togglegui(index)
         log(l.info("gui is now hidden"))
     end
 end
-
 
 function gui.refreshStartHighResScreenshotButton(index)
     -- {1, 16384}
@@ -92,7 +90,7 @@ function gui.refreshEstimates(index)
 
     if not storage.snip[index].resolution then
         -- happens if the zoom slider is moved before an area was selected so far
-        storage.gui[index].resolution_value.caption = {"FAS-no-area-selected"}
+        storage.gui[index].resolution_value.caption = { "FAS-no-area-selected" }
         storage.gui[index].estimated_filesize_value.caption = "-"
         return
     end
@@ -127,9 +125,9 @@ function gui.clearPlayerCursorStack(index)
 end
 
 function gui.givePlayerSelectionTool(index)
-    game.get_player(index).cursor_stack.set_stack{
-            name = "FAS-selection-tool"
-        }
+    game.get_player(index).cursor_stack.set_stack {
+        name = "FAS-selection-tool"
+    }
 end
 
 function gui.toggle_auto_content_area(index)
@@ -158,7 +156,6 @@ function gui.toggle_area_content_area(index)
     storage.gui[index].area_content.visible = not storage.gui[index].area_content.visible
 end
 
-
 function gui.getStatusValue()
     if storage.auto.amount then
         return storage.auto.amount .. " / " .. storage.auto.total
@@ -173,7 +170,8 @@ function gui.setStatusValue()
         if l.doD then log(l.debug("player " .. index .. " found")) end
         if l.doD then log(l.debug("player.mainframe nil? " .. (player.mainFrame == nil and "true" or "false"))) end
         if player.mainFrame and player.mainFrame.valid and player.mainFrame.visible then
-            if l.doD then log(l.debug("setting status value for player " .. index .. " with amount " .. storage.auto.amount .. " / " .. storage.auto.total)) end
+            if l.doD then log(l.debug("setting status value for player " ..
+                index .. " with amount " .. storage.auto.amount .. " / " .. storage.auto.total)) end
             player.status_value.caption = storage.auto.amount .. " / " .. storage.auto.total
             if player.progress_bar.visible == false then
                 player.progress_bar.visible = true
@@ -213,7 +211,7 @@ function gui.refreshStatusCountdown()
             -- reset flowbutton pie progress value
         end
     end
-    
+
     local countdown = calculateCountdown()
     for index, player in pairs(storage.gui) do
         if player.mainFrame and player.mainFrame.valid and player.mainFrame.visible then
@@ -225,6 +223,5 @@ function gui.refreshStatusCountdown()
         end
     end
 end
-
 
 return gui

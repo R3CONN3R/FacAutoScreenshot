@@ -2,12 +2,12 @@
 With surface support the fields for auto screenshots became tables,
 with surface indexi being the index in the table. This migration script
 should fix precisely that
-]]--
+]] --
 if storage.auto then
     for index, player in pairs(storage.auto) do
         if storage.auto[index].doScreenshot ~= nil then
             if not storage.auto[index].doSurface then
-                storage.auto[index].doSurface = {nauvis = storage.auto[index].doScreenshot}
+                storage.auto[index].doSurface = { nauvis = storage.auto[index].doScreenshot }
             end
             storage.auto[index].doScreenshot = nil
         end

@@ -2,7 +2,7 @@ local l = require("logger")
 
 local shooter = {}
 
---[[ Zoom Evalutation ]]--
+--[[ Zoom Evalutation ]] --
 local function evaluateZoomForPlayer(index, surface)
 	--prevents a specific bug with rocket rush scenario
 	if storage.auto[index] == nil then
@@ -10,13 +10,13 @@ local function evaluateZoomForPlayer(index, surface)
 		return
 	end
 
-		if l.doD then log(l.debug("ev zoom for player " .. index)) end
-		if l.doD then log(l.debug("resX: " .. storage.auto[index].resX)) end
-		if l.doD then log(l.debug("resY: " .. storage.auto[index].resY)) end
-		if l.doD then log(l.debug("storage.tracker[" .. surface .."].limitX: " .. storage.tracker[surface].limitX)) end
-		if l.doD then log(l.debug("storage.tracker[" .. surface .. "].limitY: " .. storage.tracker[surface].limitY)) end
-		if l.doD then log(l.debug("old zoom: " .. (storage.auto[index].zoom[surface] or "nil"))) end
-		if l.doD then log(l.debug("zoomLevel: " .. (storage.auto[index].zoomLevel[surface] or "nil"))) end
+	if l.doD then log(l.debug("ev zoom for player " .. index)) end
+	if l.doD then log(l.debug("resX: " .. storage.auto[index].resX)) end
+	if l.doD then log(l.debug("resY: " .. storage.auto[index].resY)) end
+	if l.doD then log(l.debug("storage.tracker[" .. surface .. "].limitX: " .. storage.tracker[surface].limitX)) end
+	if l.doD then log(l.debug("storage.tracker[" .. surface .. "].limitY: " .. storage.tracker[surface].limitY)) end
+	if l.doD then log(l.debug("old zoom: " .. (storage.auto[index].zoom[surface] or "nil"))) end
+	if l.doD then log(l.debug("zoomLevel: " .. (storage.auto[index].zoomLevel[surface] or "nil"))) end
 
 	if not storage.auto[index].zoom[surface] then storage.auto[index].zoom[surface] = 1 end
 	if not storage.auto[index].zoomLevel[surface] then storage.auto[index].zoomLevel[surface] = 1 end
@@ -36,13 +36,20 @@ local function evaluateZoomForPlayer(index, surface)
 	while newZoom < storage.auto[index].zoom[surface] and storage.auto[index].zoomLevel[surface] < 32 do
 		storage.auto[index].zoomLevel[surface] = storage.auto[index].zoomLevel[surface] + 1
 		storage.auto[index].zoom[surface] = 1 / storage.auto[index].zoomLevel[surface]
-		log(l.info("Adjusting zoom for player " .. index .. " on surface " .. surface .. " to " .. storage.auto[index].zoom[surface] .. " and zoomlevel to " .. storage.auto[index].zoomLevel[surface]))
+		log(l.info("Adjusting zoom for player " ..
+		index ..
+		" on surface " ..
+		surface ..
+		" to " .. storage.auto[index].zoom[surface] .. " and zoomlevel to " .. storage.auto[index].zoomLevel[surface]))
 	end
 	if oldZoom > storage.auto[index].zoom[surface] then
-		log(l.info("Adjusted zoom for player " .. index .. " from " .. oldZoom .. " to " .. storage.auto[index].zoom[surface]))
+		log(l.info("Adjusted zoom for player " ..
+		index .. " from " .. oldZoom .. " to " .. storage.auto[index].zoom[surface]))
 		if (storage.auto[index].zoom[surface] == 32) then
 			log(l.warn("Player " .. index .. " reached maximum zoomlevel"))
-			game.print("FAS: Player " .. index .. " reached maximum zoom level of 32. No further zooming out possible. Entities exceeding the screenshot limits will not be shown on the screenshots!")
+			game.print("FAS: Player " ..
+			index ..
+			" reached maximum zoom level of 32. No further zooming out possible. Entities exceeding the screenshot limits will not be shown on the screenshots!")
 		end
 	end
 end
@@ -60,15 +67,13 @@ function shooter.evaluateZoomForAllPlayersAndSurface(surface)
 end
 
 function shooter.evaluateZoomForAllPlayersAndAllSurfaces()
-    log(l.info("ev zoom for all players"))
+	log(l.info("ev zoom for all players"))
 	for _, player in pairs(game.connected_players) do
-			shooter.evaluateZoomForPlayerAndAllSurfaces(player.index)
+		shooter.evaluateZoomForPlayerAndAllSurfaces(player.index)
 	end
 end
 
-
-
---[[ Screenshotting ]]--
+--[[ Screenshotting ]] --
 local function buildPath(folder, title, format)
 	return "./screenshots/" .. game.default_map_gen_settings.seed .. "/" .. folder .. title .. format
 end
@@ -80,15 +85,15 @@ function shooter.renderAutoSingleScreenshot(index, specs)
 	if l.doD then log(l.debug("surface: " .. specs.surface)) end
 	if l.doD then log(l.debug("res:     " .. specs.resX .. "x " .. specs.resY .. "y")) end
 	if l.doD then log(l.debug("zoom:    " .. specs.zoom)) end
-	game.take_screenshot{
-		resolution = {specs.resX, specs.resY},
-		position = {0, 0},
+	game.take_screenshot {
+		resolution = { specs.resX, specs.resY },
+		position = { 0, 0 },
 		zoom = specs.zoom,
 		surface = specs.surface,
 		daytime = 0,
 		water_tick = 0,
 		by_player = index,
-		path = buildPath("auto_singleTick_" .. specs.surface ..  "/", "screenshot" .. game.tick, ".png")
+		path = buildPath("auto_singleTick_" .. specs.surface .. "/", "screenshot" .. game.tick, ".png")
 	}
 end
 
@@ -103,9 +108,9 @@ function shooter.renderAutoScreenshotFragment(index, fragment)
 	if l.doD then log(l.debug("zoom:    " .. fragment.zoom)) end
 	if l.doD then log(l.debug("pos:     " .. posX .. "x " .. posY .. "y")) end
 
-	game.take_screenshot{
+	game.take_screenshot {
 		resolution = fragment.res,
-		position = {posX, posY},
+		position = { posX, posY },
 		zoom = fragment.zoom,
 		surface = fragment.surface,
 		by_player = index,
@@ -118,7 +123,6 @@ function shooter.renderAutoScreenshotFragment(index, fragment)
 	storage.auto.amount = fragment.offset.y * fragment.numberOfTiles + fragment.offset.x + 1
 	storage.auto.total = fragment.numberOfTiles * fragment.numberOfTiles
 end
-
 
 function shooter.renderAreaScreenshot(index)
 	log(l.info("shooter.renderAreaScreenshot was triggered"))
@@ -166,9 +170,9 @@ function shooter.renderAreaScreenshot(index)
 	local format = "." .. (storage.snip[index].output_format_index == 1 and "png" or "jpg")
 	local path = buildPath("area/", name .. "_" .. game.tick .. "_" .. resX .. "x" .. resY, format)
 
-	game.take_screenshot{
-		resolution = {resX, resY},
-		position = {posX, posY},
+	game.take_screenshot {
+		resolution = { resX, resY },
+		position = { posX, posY },
 		surface = surface,
 		zoom = zoom,
 		by_player = index,
@@ -180,8 +184,7 @@ function shooter.renderAreaScreenshot(index)
 		daytime = dstate,
 		quality = storage.snip[index].jpg_quality
 	}
-	game.get_player(index).print({"FAS-did-screenshot", path})
+	game.get_player(index).print({ "FAS-did-screenshot", path })
 end
 
 return shooter
-

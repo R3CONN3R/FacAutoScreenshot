@@ -57,7 +57,7 @@ styles.fas_slider = {
 styles.fas_numeric_output = {
     type = "textbox_style",
     -- parent = ""
-    disabled_font_color = {0.5, 0.5, 0.5},
+    disabled_font_color = { 0.5, 0.5, 0.5 },
     width = 60
 }
 styles.fas_slim_numeric_output = {

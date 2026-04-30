@@ -8,80 +8,80 @@ local guibuilder = {}
 This class does nothing but create the gui frame for a given player.
 --]]
 
---[[ CONSTANTS ]]--
+--[[ CONSTANTS ]] --
 guibuilder.flowButtonName = "togglegui"
 guibuilder.mainFrameName = "guiFrame"
 
 
 
 local function buildHeader(guiFrame)
-    local header = guiFrame.add{ type = "flow" }
+    local header = guiFrame.add { type = "flow" }
     header.style.horizontal_spacing = 8
     header.drag_target = guiFrame
 
-    local title = header.add{
+    local title = header.add {
         type = "label",
         style = "frame_title",
-        caption = {"FAS-screenshot-toolkit-panel"}
+        caption = { "FAS-screenshot-toolkit-panel" }
     }
     title.drag_target = guiFrame
-    local dragHandle = header.add{
+    local dragHandle = header.add {
         type = "empty-widget",
         style = "fas_draghandle"
     }
     dragHandle.drag_target = guiFrame
-    header.add{
+    header.add {
         type = "sprite-button",
         name = "gui_close",
         style = "frame_action_button",
         sprite = "utility/close",
         hovered_sprite = "utility/close_black",
         clicked_sprite = "utility/close_black",
-        mouse_button_filter = {"left"},
+        mouse_button_filter = { "left" },
     }
 end
 
 
 --#region -~[ AUTO ]~-
 local function buildAutoHeader(index, auto_header)
-    storage.gui[index].auto_content_collapse = auto_header.add{
+    storage.gui[index].auto_content_collapse = auto_header.add {
         type = "sprite-button",
         name = "auto_content_collapse",
         style = "fas_expand_button",
         sprite = "utility/collapse",
         hovered_sprite = "utility/collapse",
         clicked_sprite = "utility/collapse",
-        mouse_button_filter = {"left"}
+        mouse_button_filter = { "left" }
     }
 
-    auto_header.add{
+    auto_header.add {
         type = "label",
         name = "auto_screenshots_label",
-        caption = {"FAS-auto-screenshots-label"},
+        caption = { "FAS-auto-screenshots-label" },
         style = "caption_label"
     }
 end
 
 local function buildAutoStatus(index, auto_content)
-    local status_flow = auto_content.add{
+    local status_flow = auto_content.add {
         type = "flow",
         name = "status_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
-    status_flow.add{
+    status_flow.add {
         type = "label",
         name = "status_label",
-        caption = {"FAS-status-caption"},
+        caption = { "FAS-status-caption" },
         style = "fas_label"
     }
-    storage.gui[index].status_value = status_flow.add{
+    storage.gui[index].status_value = status_flow.add {
         type = "label",
         name = "status_value",
         caption = gui.getStatusValue()
     }
 
-    local progressbar = auto_content.add{
+    local progressbar = auto_content.add {
         type = "progressbar",
         name = "progress",
         visible = "false"
@@ -91,14 +91,14 @@ local function buildAutoStatus(index, auto_content)
 end
 
 local function addListitem(index, list, surfacename)
-    local list_item = list.add{
+    local list_item = list.add {
         type = "flow",
         name = "surface_listitem_" .. surfacename,
         direction = "horizontal",
         style = "fas_flow"
     }
     local temp = storage.auto[index].doSurface[surfacename]
-    list_item.add{
+    list_item.add {
         type = "checkbox",
         name = "surface_checkbox_" .. surfacename,
         caption = surfacename,
@@ -107,25 +107,25 @@ local function addListitem(index, list, surfacename)
 end
 
 local function buildAutoSurface(index, auto_content)
-    local surface_flow = auto_content.add{
+    local surface_flow = auto_content.add {
         type = "flow",
         name = "surface_flow",
         direction = "horizontal"
     }
-    surface_flow.add{
+    surface_flow.add {
         type = "label",
         name = "surface_label",
-        caption = {"FAS-surface-label-caption"},
-        tooltip = {"FAS-surface-label-tooltip"},
+        caption = { "FAS-surface-label-caption" },
+        tooltip = { "FAS-surface-label-tooltip" },
         style = "fas_label_for_list"
     }
-    local list_frame = surface_flow.add{
+    local list_frame = surface_flow.add {
         type = "frame",
         name = "surface_list_frame",
         style = "fas_list"
     }
 
-    local list = list_frame.add{
+    local list = list_frame.add {
         type = "scroll-pane",
         name = "surface_list",
         direction = "vertical",
@@ -143,53 +143,53 @@ local function buildAutoSurface(index, auto_content)
 end
 
 local function buildAutoResolution(index, auto_screenshot_config)
-    local resolution_flow = auto_screenshot_config.add{
+    local resolution_flow = auto_screenshot_config.add {
         type = "flow",
         name = "do_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
 
-    resolution_flow.add{
+    resolution_flow.add {
         type = "label",
         name = "resolution_label",
-        caption = {"FAS-resolution-caption"},
+        caption = { "FAS-resolution-caption" },
         style = "fas_label"
     }
 
-    resolution_flow.add{
+    resolution_flow.add {
         type = "drop-down",
         name = "auto_resolution_value",
         selected_index = storage.auto[index].resolution_index,
-        items = {"15360x8640 (16K)", "7680x4320 (8K)", "3840x2160 (4K)", "1920x1080 (FullHD)", "1280x720  (HD)"}
+        items = { "15360x8640 (16K)", "7680x4320 (8K)", "3840x2160 (4K)", "1920x1080 (FullHD)", "1280x720  (HD)" }
     }
 end
 
 local function buildAutoInterval(index, auto_screenshot_config)
-    local interval_flow = auto_screenshot_config.add{
+    local interval_flow = auto_screenshot_config.add {
         type = "flow",
         name = "interval_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
 
-    interval_flow.add{
+    interval_flow.add {
         type = "label",
         name = "interval_label",
-        caption = {"FAS-interval-label-caption"},
+        caption = { "FAS-interval-label-caption" },
         style = "fas_label"
     }
 
-    storage.gui[index].interval_value = interval_flow.add{
+    storage.gui[index].interval_value = interval_flow.add {
         type = "textfield",
         name = "interval_value",
-        tooltip = {"FAS-interval-value-tooltip"},
+        tooltip = { "FAS-interval-value-tooltip" },
         text = storage.auto[index].interval / 3600,
         numeric = true,
         style = "fas_slim_numeric_output"
     }
 
-    interval_flow.add{
+    interval_flow.add {
         type = "label",
         name = "interval_unit",
         caption = "min"
@@ -197,21 +197,21 @@ local function buildAutoInterval(index, auto_screenshot_config)
 end
 
 local function buildAutoSingleTick(index, auto_screenshot_config)
-    local single_tick_flow = auto_screenshot_config.add{
+    local single_tick_flow = auto_screenshot_config.add {
         type = "flow",
         name = "single_tick_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
 
-    single_tick_flow.add{
+    single_tick_flow.add {
         type = "label",
         name = "single_tick_label",
-        caption = {"FAS-single-tick-caption"},
+        caption = { "FAS-single-tick-caption" },
         style = "fas_label"
     }
 
-    storage.gui[index].single_tick_value = single_tick_flow.add{
+    storage.gui[index].single_tick_value = single_tick_flow.add {
         type = "checkbox",
         name = "single_tick_value",
         state = storage.auto[index].singleScreenshot or false
@@ -219,7 +219,7 @@ local function buildAutoSingleTick(index, auto_screenshot_config)
 end
 
 local function buildAutoSplittingFactor(index, auto_screenshot_config)
-    local splitting_factor_flow = auto_screenshot_config.add{
+    local splitting_factor_flow = auto_screenshot_config.add {
         type = "flow",
         name = "splitting_factor_flow",
         direction = "horizontal",
@@ -228,25 +228,25 @@ local function buildAutoSplittingFactor(index, auto_screenshot_config)
     }
     storage.gui[index].splitting_factor_flow = splitting_factor_flow
 
-    splitting_factor_flow.add{
+    splitting_factor_flow.add {
         type = "label",
         name = "splitting_factor_label",
-        caption = {"FAS-splitting-factor-caption"},
-        tooltip = {"FAS-splitting-factor-tooltip"},
+        caption = { "FAS-splitting-factor-caption" },
+        tooltip = { "FAS-splitting-factor-tooltip" },
         style = "fas_label"
     }
 
-    splitting_factor_flow.add{
+    splitting_factor_flow.add {
         type = "slider",
         name = "splitting_factor_slider",
         minimum_value = "0",
         maximum_value = "3",
         -- x in 4^x, log_4(x), as log_a(b) is ln(b)/ln(a) -- credits to curiosity!
-        value = math.log(storage.auto[index].splittingFactor)/math.log(4),
+        value = math.log(storage.auto[index].splittingFactor) / math.log(4),
         style = "fas_slider"
     }
 
-    storage.gui[index].splitting_factor_value = splitting_factor_flow.add{
+    storage.gui[index].splitting_factor_value = splitting_factor_flow.add {
         type = "textfield",
         name = "splitting_factor_value",
         text = storage.auto[index].splittingFactor,
@@ -257,12 +257,12 @@ local function buildAutoSplittingFactor(index, auto_screenshot_config)
 end
 
 local function buildAutoScreenshotSection(index, auto_frame)
-    buildAutoHeader(index, auto_frame.add{
+    buildAutoHeader(index, auto_frame.add {
         type = "flow",
         style = "player_input_horizontal_flow"
     })
 
-    local auto_content = auto_frame.add{
+    local auto_content = auto_frame.add {
         type = "flow",
         direction = "vertical"
     }
@@ -279,76 +279,76 @@ end
 
 --#region -~[[ AREA ]]~-
 local function buildAreaHeader(index, area_header)
-    storage.gui[index].area_content_collapse = area_header.add{
+    storage.gui[index].area_content_collapse = area_header.add {
         type = "sprite-button",
         name = "area_content_collapse",
         style = "fas_expand_button",
         sprite = "utility/collapse",
         hovered_sprite = "utility/collapse",
         clicked_sprite = "utility/collapse",
-        mouse_button_filter = {"left"}
+        mouse_button_filter = { "left" }
     }
 
-    area_header.add{
+    area_header.add {
         type = "label",
         name = "area_screenshots_label",
-        caption = {"FAS-area-screenshots-label"},
+        caption = { "FAS-area-screenshots-label" },
         style = "caption_label"
     }
 end
 
 local function buildAreaArea(index, area_content)
-    local area_select_flow = area_content.add{
+    local area_select_flow = area_content.add {
         type = "flow",
         name = "area_select_flow",
         direction = "horizontal"
     }
 
-    local area_label = area_select_flow.add{
+    local area_label = area_select_flow.add {
         type = "label",
         name = "area-label",
-        caption = {"FAS-area-caption"},
-        tooltip = {"FAS-area-tooltip"}
+        caption = { "FAS-area-caption" },
+        tooltip = { "FAS-area-tooltip" }
     }
     area_label.style.top_margin = 4
 
-    storage.gui[index].select_area_button_FAS = area_select_flow.add{
+    storage.gui[index].select_area_button_FAS = area_select_flow.add {
         type = "sprite-button",
         name = "select_area_button_FAS",
         sprite = "FAS-area-select-icon",
-        mouse_button_filter = {"left"},
-        tooltip = {"FAS-area-select-button-tooltip"},
+        mouse_button_filter = { "left" },
+        tooltip = { "FAS-area-select-button-tooltip" },
         style = "tool_button"
     }
 
-    area_select_flow.add{
+    area_select_flow.add {
         type = "sprite-button",
         name = "delete_area_button",
         sprite = "FAS-delete-selection-icon",
-        mouse_button_filter = {"left"},
-        tooltip = {"FAS-delete-area-button-tooltip"},
+        mouse_button_filter = { "left" },
+        tooltip = { "FAS-delete-area-button-tooltip" },
         style = "tool_button_red"
     }
 
-    local area_spreader = area_select_flow.add{
+    local area_spreader = area_select_flow.add {
         type = "empty-widget",
         name = "area_spreader"
     }
     area_spreader.style.horizontally_stretchable = true
 
     -- Area select table
-    local area_input_table = area_select_flow.add{
+    local area_input_table = area_select_flow.add {
         type = "table",
         name = "area_select_table",
         column_count = 4
     }
-    area_input_table.add{
+    area_input_table.add {
         type = "label",
         name = "width-label",
-        caption = {"FAS-width-label-caption", ":"}
+        caption = { "FAS-width-label-caption", ":" }
     }
 
-    local width_value = area_input_table.add{
+    local width_value = area_input_table.add {
         type = "textfield",
         name = "width_value",
         numeric = "true",
@@ -358,13 +358,13 @@ local function buildAreaArea(index, area_content)
     }
     storage.gui[index].width_value = width_value
 
-    area_input_table.add{
+    area_input_table.add {
         type = "label",
         name = "height-label",
-        caption = {"FAS-height-label-caption", ":"}
+        caption = { "FAS-height-label-caption", ":" }
     }
 
-    local height_value = area_input_table.add{
+    local height_value = area_input_table.add {
         type = "textfield",
         name = "height_value",
         numeric = "true",
@@ -374,13 +374,13 @@ local function buildAreaArea(index, area_content)
     }
     storage.gui[index].height_value = height_value
 
-    area_input_table.add{
+    area_input_table.add {
         type = "label",
         name = "x-label",
         caption = "X:"
     }
 
-    local x_value = area_input_table.add{
+    local x_value = area_input_table.add {
         type = "textfield",
         name = "x_value",
         numeric = "true",
@@ -391,13 +391,13 @@ local function buildAreaArea(index, area_content)
     storage.gui[index].x_value = x_value
 
 
-    area_input_table.add{
+    area_input_table.add {
         type = "label",
         name = "y-label",
         caption = "Y:",
     }
 
-    local y_value = area_input_table.add{
+    local y_value = area_input_table.add {
         type = "textfield",
         name = "y_value",
         numeric = "true",
@@ -409,50 +409,50 @@ local function buildAreaArea(index, area_content)
 end
 
 local function buildAreaDayTime(index, area_content)
-    local daytime_flow = area_content.add{
+    local daytime_flow = area_content.add {
         type = "flow",
         name = "daytime_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
 
-    daytime_flow.add{
+    daytime_flow.add {
         type = "label",
         name = "daytime_label",
-        caption = {"FAS-daytime-caption"},
-        tooltip = {"FAS-daytime-tooltip"},
+        caption = { "FAS-daytime-caption" },
+        tooltip = { "FAS-daytime-tooltip" },
         style = "fas_label"
     }
 
-    storage.gui[index].daytime_switch = daytime_flow.add{
+    storage.gui[index].daytime_switch = daytime_flow.add {
         type = "switch",
         name = "daytime_switch",
         switch_state = storage.snip[index].daytime_state or "none",
         allow_none_state = true,
-        left_label_caption = {"FAS-day-caption"},
-        left_label_tooltip = {"FAS-day-tooltip"},
-        right_label_caption = {"FAS-night-caption"},
-        right_label_tooltip = {"FAS-night-tooltip"}
+        left_label_caption = { "FAS-day-caption" },
+        left_label_tooltip = { "FAS-day-tooltip" },
+        right_label_caption = { "FAS-night-caption" },
+        right_label_tooltip = { "FAS-night-tooltip" }
     }
 end
 
 local function buildAreaShowAltMode(index, area_content)
-    local alt_mode_flow = area_content.add{
+    local alt_mode_flow = area_content.add {
         type = "flow",
         name = "alt_mode_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
 
-    alt_mode_flow.add{
+    alt_mode_flow.add {
         type = "label",
         name = "alt_mode_label",
-        caption = {"FAS-alt-mode-caption"},
-        tooltip = {"FAS-alt-mode-tooltip"},
+        caption = { "FAS-alt-mode-caption" },
+        tooltip = { "FAS-alt-mode-tooltip" },
         style = "fas_label"
     }
 
-    storage.gui[index].alt_mode_value = alt_mode_flow.add{
+    storage.gui[index].alt_mode_value = alt_mode_flow.add {
         type = "checkbox",
         name = "alt_mode_value",
         state = storage.snip[index].showAltMode or false
@@ -460,22 +460,22 @@ local function buildAreaShowAltMode(index, area_content)
 end
 
 local function buildAreaShowUi(index, area_content)
-    local show_ui_flow = area_content.add{
+    local show_ui_flow = area_content.add {
         type = "flow",
         name = "show_ui_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
 
-    show_ui_flow.add{
+    show_ui_flow.add {
         type = "label",
         name = "show_ui_label",
-        caption = {"FAS-show-ui-caption"},
-        tooltip = {"FAS-show-ui-tooltip"},
+        caption = { "FAS-show-ui-caption" },
+        tooltip = { "FAS-show-ui-tooltip" },
         style = "fas_label"
     }
 
-    storage.gui[index].show_ui_value = show_ui_flow.add{
+    storage.gui[index].show_ui_value = show_ui_flow.add {
         type = "checkbox",
         name = "show_ui_value",
         state = storage.snip[index].showUI or false
@@ -483,22 +483,22 @@ local function buildAreaShowUi(index, area_content)
 end
 
 local function buildAreaShowCursorBuildingPreview(index, area_content)
-    local show_cursor_building_preview_flow = area_content.add{
+    local show_cursor_building_preview_flow = area_content.add {
         type = "flow",
         name = "show_cursor_building_preview_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
 
-    show_cursor_building_preview_flow.add{
+    show_cursor_building_preview_flow.add {
         type = "label",
         name = "show_cursor_building_preview_label",
-        caption = {"FAS-show-cursor-building-preview-caption"},
-        tooltip = {"FAS-show-cursor-building-preview-tooltip"},
+        caption = { "FAS-show-cursor-building-preview-caption" },
+        tooltip = { "FAS-show-cursor-building-preview-tooltip" },
         style = "fas_label"
     }
 
-    storage.gui[index].show_cursor_building_preview_value = show_cursor_building_preview_flow.add{
+    storage.gui[index].show_cursor_building_preview_value = show_cursor_building_preview_flow.add {
         type = "checkbox",
         name = "show_cursor_building_preview_value",
         state = storage.snip[index].showCursorBuildingPreview or false
@@ -506,22 +506,22 @@ local function buildAreaShowCursorBuildingPreview(index, area_content)
 end
 
 local function buildAreaUseAntiAlias(index, area_content)
-    local use_anti_alias_flow = area_content.add{
+    local use_anti_alias_flow = area_content.add {
         type = "flow",
         name = "use_anti_alias_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
 
-    use_anti_alias_flow.add{
+    use_anti_alias_flow.add {
         type = "label",
         name = "use_anti_alias_label",
-        caption = {"FAS-use-anti-alias-caption"},
-        tooltip = {"FAS-use-anti-alias-tooltip"},
+        caption = { "FAS-use-anti-alias-caption" },
+        tooltip = { "FAS-use-anti-alias-tooltip" },
         style = "fas_label"
     }
 
-    storage.gui[index].use_anti_alias_value = use_anti_alias_flow.add{
+    storage.gui[index].use_anti_alias_value = use_anti_alias_flow.add {
         type = "checkbox",
         name = "use_anti_alias_value",
         state = storage.snip[index].useAntiAlias or false
@@ -529,28 +529,28 @@ local function buildAreaUseAntiAlias(index, area_content)
 end
 
 local function buildAreaZoom(index, area_content)
-    local zoom_flow = area_content.add{
+    local zoom_flow = area_content.add {
         type = "flow",
         name = "zoom_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
-    zoom_flow.add{
+    zoom_flow.add {
         type = "label",
         name = "zoom_label",
-        caption = {"FAS-zoom-label-caption"},
-        tooltip = {"FAS-zoom-label-tooltip"},
+        caption = { "FAS-zoom-label-caption" },
+        tooltip = { "FAS-zoom-label-tooltip" },
         style = "fas_label"
     }
-    storage.gui[index].zoom_slider = zoom_flow.add{
+    storage.gui[index].zoom_slider = zoom_flow.add {
         type = "slider",
         name = "zoom_slider",
         minimum_value = "-3",
         maximum_value = "5",
-        value = math.log(storage.snip[index].zoomLevel)/math.log(2),
+        value = math.log(storage.snip[index].zoomLevel) / math.log(2),
         style = "fas_slider"
     }
-    storage.gui[index].zoom_value = zoom_flow.add{
+    storage.gui[index].zoom_value = zoom_flow.add {
         type = "textfield",
         name = "zoom_value",
         text = storage.snip[index].zoomLevel,
@@ -562,39 +562,39 @@ local function buildAreaZoom(index, area_content)
 end
 
 local function buildAreaResolution(index, area_content)
-    local resolution_flow = area_content.add{
+    local resolution_flow = area_content.add {
         type = "flow",
         name = "resolution_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
-    resolution_flow.add{
+    resolution_flow.add {
         type = "label",
         name = "resolution_label",
-        caption = {"FAS-resolution-caption"},
+        caption = { "FAS-resolution-caption" },
         style = "fas_label"
     }
-    storage.gui[index].resolution_value = resolution_flow.add{
+    storage.gui[index].resolution_value = resolution_flow.add {
         type = "label",
         name = "resolution_value",
-        caption = storage.snip[index].resolution or {"FAS-no-area-selected"}
+        caption = storage.snip[index].resolution or { "FAS-no-area-selected" }
     }
 end
 
 local function buildAreaFilesize(index, area_content)
-    local estimated_filesize_flow = area_content.add{
+    local estimated_filesize_flow = area_content.add {
         type = "flow",
         name = "estimated_filesize_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
-    estimated_filesize_flow.add{
+    estimated_filesize_flow.add {
         type = "label",
         name = "estimated_filesize_label",
-        caption = {"FAS-estimated-filesize"},
+        caption = { "FAS-estimated-filesize" },
         style = "fas_label"
     }
-    storage.gui[index].estimated_filesize_value = estimated_filesize_flow.add{
+    storage.gui[index].estimated_filesize_value = estimated_filesize_flow.add {
         type = "label",
         name = "estimated_filesize_value",
         caption = storage.snip[index].filesize or "-"
@@ -602,35 +602,35 @@ local function buildAreaFilesize(index, area_content)
 end
 
 local function buildAreaOutput(index, area_content)
-    local area_output_flow = area_content.add{
+    local area_output_flow = area_content.add {
         type = "flow",
         name = "area_output_flow",
         direction = "horizontal",
         style = "fas_flow"
     }
-    area_output_flow.add{
+    area_output_flow.add {
         type = "label",
         name = "area_output_label",
-        caption = {"FAS-area-output-label"},
+        caption = { "FAS-area-output-label" },
         style = "fas_label"
     }
-    area_output_flow.add{
+    area_output_flow.add {
         type = "textfield",
         name = "area_output_name",
         text = storage.snip[index].outputName or "screenshot",
         style = "fas_wide_text_input"
     }
-    area_output_flow.add{
+    area_output_flow.add {
         type = "drop-down",
         name = "area_output_format",
         selected_index = storage.snip[index].output_format_index,
-        items = {".png", ".jpg"},
+        items = { ".png", ".jpg" },
         style = "fas_slim_drop_down"
     }
 end
 
 local function buildAreaJpgQuality(index, area_content)
-    local area_jpg_quality_flow = area_content.add{
+    local area_jpg_quality_flow = area_content.add {
         type = "flow",
         name = "area_jpg_quality_flow",
         direction = "horizontal",
@@ -638,15 +638,15 @@ local function buildAreaJpgQuality(index, area_content)
         visible = storage.snip[index].output_format_index == 2
     }
     storage.gui[index].area_jpg_quality_flow = area_jpg_quality_flow
-    area_jpg_quality_flow.add{
+    area_jpg_quality_flow.add {
         type = "label",
         name = "area_jpg_quality_label",
-        caption = {"FAS-area-jpg-quality-label"},
-        tooltip = {"FAS-area-jpg-quality-tooltip"},
+        caption = { "FAS-area-jpg-quality-label" },
+        tooltip = { "FAS-area-jpg-quality-tooltip" },
         style = "fas_label"
     }
 
-    area_jpg_quality_flow.add{
+    area_jpg_quality_flow.add {
         type = "slider",
         name = "area_jpg_quality_slider",
         minimum_value = "10",
@@ -656,44 +656,43 @@ local function buildAreaJpgQuality(index, area_content)
         style = "fas_slider"
     }
 
-    storage.gui[index].area_jpg_quality_value = area_jpg_quality_flow.add{
+    storage.gui[index].area_jpg_quality_value = area_jpg_quality_flow.add {
         type = "textfield",
         name = "area_jpg_quality_value",
         text = storage.snip[index].jpg_quality,
         enabled = false,
         style = "fas_slim_numeric_output"
     }
-
 end
 
 local function buildAreaStartButton(index, area_content)
-    local agree_flow = area_content.add{
+    local agree_flow = area_content.add {
         type = "flow",
         name = "agree_flow",
         direction = "horizontal"
     }
     agree_flow.style.vertical_align = "center"
-    local spreader = agree_flow.add{
+    local spreader = agree_flow.add {
         type = "empty-widget",
         name = "spreader"
     }
     spreader.style.horizontally_stretchable = true
-    storage.gui[index].start_area_screenshot_button = agree_flow.add{
+    storage.gui[index].start_area_screenshot_button = agree_flow.add {
         type = "button",
         name = "start_area_screenshot_button",
-        caption = {"FAS-start-area-screenshot-button-caption"},
-        mouse_button_filter = {"left"},
+        caption = { "FAS-start-area-screenshot-button-caption" },
+        mouse_button_filter = { "left" },
         enabled = storage.snip[index].enableScreenshotButton or false
     }
 end
 
 local function buildAreaScreenshotSection(index, area_frame)
-    buildAreaHeader(index, area_frame.add{
+    buildAreaHeader(index, area_frame.add {
         type = "flow",
         style = "player_input_horizontal_flow"
     })
 
-    local area_content = area_frame.add{
+    local area_content = area_frame.add {
         type = "flow",
         direction = "vertical"
     }
@@ -718,14 +717,14 @@ end
 
 
 local function buildContentFrame(index, content_frame)
-    buildAutoScreenshotSection(index, content_frame.add{
+    buildAutoScreenshotSection(index, content_frame.add {
         type = "frame",
         name = "auto_frame",
         direction = "vertical",
         style = "fas_section"
     })
 
-    buildAreaScreenshotSection(index, content_frame.add{
+    buildAreaScreenshotSection(index, content_frame.add {
         type = "frame",
         name = "area_frame",
         direction = "vertical",
@@ -741,7 +740,7 @@ function guibuilder.createGuiFrame(player, guiInstance)
     if not gui then gui = guiInstance end
 
     storage.gui[player.index] = {}
-    local guiFrame = player.gui.screen.add{
+    local guiFrame = player.gui.screen.add {
         type = "frame",
         name = guibuilder.mainFrameName,
         direction = "vertical"
@@ -750,7 +749,7 @@ function guibuilder.createGuiFrame(player, guiInstance)
     storage.gui[player.index].mainFrame = guiFrame
 
     buildHeader(guiFrame)
-    buildContentFrame(player.index, guiFrame.add{
+    buildContentFrame(player.index, guiFrame.add {
         type = "frame",
         name = "content_frame",
         direction = "vertical",

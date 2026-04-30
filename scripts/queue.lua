@@ -8,7 +8,7 @@ local q = {}
 
 	Every player queue has an entry for every surface, indexed with surface
 	index, with lower indexi being next
-]]--
+]] --
 
 function q.initialize(index)
 	storage.queue[index] = {}
@@ -32,7 +32,7 @@ local function getDivisor(index, surface)
 	else
 		divisor = 16
 	end
-	
+
 	divisor = divisor * (math.sqrt(storage.auto[index].splittingFactor))
 
 	if l.doD then log(l.debug("returned divisor " .. divisor .. " from input " .. zoomLevel)) end
@@ -69,15 +69,15 @@ local function registerPlayerFragmentedScreenshots(index)
 
 			local posXStepsize = rightborder * 2 / numberOfTiles
 			local posYStepsize = bottomborder * 2 / numberOfTiles
-		
+
 			local fragment = {
 				isFragmentedScreenshot = true,
 				surface = surface.name,
-				res = {x = resX / numberOfTiles, y = resY / numberOfTiles},
+				res = { x = resX / numberOfTiles, y = resY / numberOfTiles },
 				numberOfTiles = numberOfTiles,
-				offset = {x=0, y=0},
-				startpos = {x = -rightborder + posXStepsize / 2, y = -bottomborder + posYStepsize / 2},
-				stepsize = {x = posXStepsize, y = posYStepsize},
+				offset = { x = 0, y = 0 },
+				startpos = { x = -rightborder + posXStepsize / 2, y = -bottomborder + posYStepsize / 2 },
+				stepsize = { x = posXStepsize, y = posYStepsize },
 				zoom = zoom,
 				title = "screenshot" .. game.tick
 			}
@@ -126,7 +126,9 @@ function q.registerPlayerToQueue(index)
 	else
 		if hasEntriesForPlayer(index) then
 			log(l.warn("there was still a screenshot queued when trying to register a player to queue"))
-			game.print("FAS: The script is not yet done with the screenshots for player " .. game.get_player(index).name .. " but tried to register new ones. This screenshot interval will be skipped. Please lower the \"increased splitting\" setting if it is set or make the intervals in which screenshots are done longer. Changing the resolution will not prevent this from happening.")
+			game.print("FAS: The script is not yet done with the screenshots for player " ..
+				game.get_player(index).name ..
+				" but tried to register new ones. This screenshot interval will be skipped. Please lower the \"increased splitting\" setting if it is set or make the intervals in which screenshots are done longer. Changing the resolution will not prevent this from happening.")
 			return
 		end
 	end
@@ -136,7 +138,6 @@ function q.registerPlayerToQueue(index)
 	else
 		registerPlayerFragmentedScreenshots(index)
 	end
-
 end
 
 function q.doesAutoScreenshot(index)
@@ -175,7 +176,6 @@ function q.remove(index, surface)
 		end
 	end
 end
-
 
 function q.getNextStep()
 	local step = {}

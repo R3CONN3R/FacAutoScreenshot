@@ -7,7 +7,7 @@ function snip.resetArea(index)
         storage.snip[index].area = {}
     end
     if storage.snip[index].rec then
-		storage.snip[index].rec.destroy()
+        storage.snip[index].rec.destroy()
         storage.snip[index].rec = nil
     end
     if storage.snip[index].resolution then
@@ -22,15 +22,15 @@ function snip.resetArea(index)
 end
 
 function snip.calculateArea(index, new_area)
-	assert(new_area)
+    assert(new_area)
 
     local left   = new_area.left_top.x
     local top    = new_area.left_top.y
     local right  = new_area.right_bottom.x
     local bottom = new_area.right_bottom.y
-	
-	assert(right >= right)
-	assert(bottom >= top)
+
+    assert(right >= right)
+    assert(bottom >= top)
 
     --rounding the limits
     top = math.floor(top)
@@ -64,22 +64,21 @@ function snip.calculateArea(index, new_area)
     storage.snip[index].surface_name = surface_name
 
     if storage.snip[index].rec then
-		storage.snip[index].rec.destroy()
+        storage.snip[index].rec.destroy()
     end
-    
+
     -- A small offset so we don't have the white lines of the rectangle bleed into image
-    local offset = 0.05 
-    
-    storage.snip[index].rec = rendering.draw_rectangle{
-        color = {0.5, 0.5, 0.5, 0.5},
+    local offset = 0.05
+
+    storage.snip[index].rec = rendering.draw_rectangle {
+        color = { 0.5, 0.5, 0.5, 0.5 },
         width = 1,
         filled = false,
-        left_top = {left - offset, top - offset},
-        right_bottom = {right + offset, bottom + offset},
-        players = {index},
+        left_top = { left - offset, top - offset },
+        right_bottom = { right + offset, bottom + offset },
+        players = { index },
         surface = surface_name
     }
-
 end
 
 function snip.calculateEstimates(index)
