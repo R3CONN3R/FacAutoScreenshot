@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.7.1
+Date: 2026-04-30
+  Bugfixes:
+    - Daytime toggle fix by glektarssza PR[#3](https://github.com/R3CONN3R/FacAutoScreenshot/issues/3)
+  Changes:
+    - Code refactoring
+---------------------------------------------------------------------------------------------------
 Version: 2.7.0
 Date: 2026-04-29
   Features:
