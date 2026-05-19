@@ -14,20 +14,12 @@ local function concat(...)
     return table.concat(result)
 end
 
-function logger.debug(...)
-    return concat("DBUG: ", ...)
-end
-
 function logger.info(...)
     return concat("INFO: ", ...)
 end
 
 function logger.warn(...)
     return concat("WARN: ", ...)
-end
-
-function logger.doD()
-    return storage.verbose == true
 end
 
 return logger

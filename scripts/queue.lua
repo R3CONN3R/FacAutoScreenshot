@@ -34,9 +34,6 @@ local function getDivisor(index, surface)
 	end
 
 	divisor = divisor * (math.sqrt(storage.auto[index].splittingFactor))
-
-	if l.doD then log(l.debug("returned divisor " .. divisor .. " from input " .. zoomLevel)) end
-
 	return divisor
 end
 
@@ -81,16 +78,6 @@ local function registerPlayerFragmentedScreenshots(index)
 				zoom = zoom,
 				title = "screenshot" .. game.tick
 			}
-
-			if l.doD then log(l.debug("surface:    " .. fragment["surface"])) end
-			if l.doD then log(l.debug("res:        " .. fragment["res"].x .. "x" .. fragment["res"].y)) end
-			if l.doD then log(l.debug("numOfTiles: " .. fragment["numberOfTiles"])) end
-			if l.doD then log(l.debug("offset:     " .. fragment["offset"].x .. " " .. fragment["offset"].y)) end
-			if l.doD then log(l.debug("startpos:   " .. fragment["startpos"].x .. " " .. fragment["startpos"].y)) end
-			if l.doD then log(l.debug("stepsize:   " .. fragment["stepsize"].x .. " " .. fragment["stepsize"].y)) end
-			if l.doD then log(l.debug("zoom:       " .. fragment["zoom"])) end
-			if l.doD then log(l.debug("title:      " .. fragment["title"])) end
-
 			storage.queue[index][surface.name] = fragment
 		end
 	end
@@ -109,7 +96,6 @@ local function getNextEntry(index)
 			end
 		end
 	end
-	-- if l.doD then log(l.debug("there was no entry for player " .. index)) end
 	return nil
 end
 
@@ -118,7 +104,6 @@ local function hasEntriesForPlayer(index)
 end
 
 function q.registerPlayerToQueue(index)
-	log(l.info("registering player to screenshot list"))
 	if not q.hasAnyEntries() then
 		for _, player in pairs(game.connected_players) do
 			storage.flowButton[player.index].sprite = "FAS-recording-icon"

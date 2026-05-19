@@ -9,15 +9,6 @@ local function evaluateZoomForPlayer(index, surface)
 		log(l.warn("storage.auto[" .. index .. "] is nil. returning"))
 		return
 	end
-
-	if l.doD then log(l.debug("ev zoom for player " .. index)) end
-	if l.doD then log(l.debug("resX: " .. storage.auto[index].resX)) end
-	if l.doD then log(l.debug("resY: " .. storage.auto[index].resY)) end
-	if l.doD then log(l.debug("storage.tracker[" .. surface .. "].limitX: " .. storage.tracker[surface].limitX)) end
-	if l.doD then log(l.debug("storage.tracker[" .. surface .. "].limitY: " .. storage.tracker[surface].limitY)) end
-	if l.doD then log(l.debug("old zoom: " .. (storage.auto[index].zoom[surface] or "nil"))) end
-	if l.doD then log(l.debug("zoomLevel: " .. (storage.auto[index].zoomLevel[surface] or "nil"))) end
-
 	if not storage.auto[index].zoom[surface] then storage.auto[index].zoom[surface] = 1 end
 	if not storage.auto[index].zoomLevel[surface] then storage.auto[index].zoomLevel[surface] = 1 end
 
@@ -36,20 +27,13 @@ local function evaluateZoomForPlayer(index, surface)
 	while newZoom < storage.auto[index].zoom[surface] and storage.auto[index].zoomLevel[surface] < 32 do
 		storage.auto[index].zoomLevel[surface] = storage.auto[index].zoomLevel[surface] + 1
 		storage.auto[index].zoom[surface] = 1 / storage.auto[index].zoomLevel[surface]
-		log(l.info("Adjusting zoom for player " ..
-		index ..
-		" on surface " ..
-		surface ..
-		" to " .. storage.auto[index].zoom[surface] .. " and zoomlevel to " .. storage.auto[index].zoomLevel[surface]))
 	end
 	if oldZoom > storage.auto[index].zoom[surface] then
-		log(l.info("Adjusted zoom for player " ..
-		index .. " from " .. oldZoom .. " to " .. storage.auto[index].zoom[surface]))
 		if (storage.auto[index].zoom[surface] == 32) then
 			log(l.warn("Player " .. index .. " reached maximum zoomlevel"))
 			game.print("FAS: Player " ..
-			index ..
-			" reached maximum zoom level of 32. No further zooming out possible. Entities exceeding the screenshot limits will not be shown on the screenshots!")
+				index ..
+				" reached maximum zoom level of 32. No further zooming out possible. Entities exceeding the screenshot limits will not be shown on the screenshots!")
 		end
 	end
 end
@@ -67,7 +51,6 @@ function shooter.evaluateZoomForAllPlayersAndSurface(surface)
 end
 
 function shooter.evaluateZoomForAllPlayersAndAllSurfaces()
-	log(l.info("ev zoom for all players"))
 	for _, player in pairs(game.connected_players) do
 		shooter.evaluateZoomForPlayerAndAllSurfaces(player.index)
 	end
@@ -80,11 +63,6 @@ end
 
 
 function shooter.renderAutoSingleScreenshot(index, specs)
-	if l.doD then log(l.debug("rendering auto screenshot as single screenshot")) end
-	if l.doD then log(l.debug("index:   " .. index)) end
-	if l.doD then log(l.debug("surface: " .. specs.surface)) end
-	if l.doD then log(l.debug("res:     " .. specs.resX .. "x " .. specs.resY .. "y")) end
-	if l.doD then log(l.debug("zoom:    " .. specs.zoom)) end
 	game.take_screenshot {
 		resolution = { specs.resX, specs.resY },
 		position = { 0, 0 },
@@ -100,13 +78,6 @@ end
 function shooter.renderAutoScreenshotFragment(index, fragment)
 	local posX = fragment.startpos.x + fragment.stepsize.x * fragment.offset.x
 	local posY = fragment.startpos.y + fragment.stepsize.y * fragment.offset.y
-
-	if l.doD then log(l.debug("rendering next auto screenshot fragment")) end
-	if l.doD then log(l.debug("index:   " .. index)) end
-	if l.doD then log(l.debug("surface: " .. fragment.surface)) end
-	if l.doD then log(l.debug("res:     " .. fragment.res.x .. "x " .. fragment.res.y .. "y")) end
-	if l.doD then log(l.debug("zoom:    " .. fragment.zoom)) end
-	if l.doD then log(l.debug("pos:     " .. posX .. "x " .. posY .. "y")) end
 
 	game.take_screenshot {
 		resolution = fragment.res,
@@ -125,25 +96,6 @@ function shooter.renderAutoScreenshotFragment(index, fragment)
 end
 
 function shooter.renderAreaScreenshot(index)
-	log(l.info("shooter.renderAreaScreenshot was triggered"))
-	if l.doD then
-		log(l.debug("index:       " .. index))
-		log(l.debug("area.top:    " .. storage.snip[index].area.top))
-		log(l.debug("area.bottom: " .. storage.snip[index].area.bottom))
-		log(l.debug("area.left:   " .. storage.snip[index].area.left))
-		log(l.debug("area.right:  " .. storage.snip[index].area.right))
-		log(l.debug("zoomlevel:   " .. storage.snip[index].zoomLevel))
-		log(l.debug("daytime:     " .. (storage.snip[index].daytime_state or "none")))
-		log(l.debug("show alt m.: " .. (storage.snip[index].showAltMode and "true" or "false")))
-		log(l.debug("show ui:     " .. (storage.snip[index].showUI and "true" or "false")))
-		log(l.debug("show cur b.: " .. (storage.snip[index].showCursorBuildingPreview and "true" or "false")))
-		log(l.debug("use antial.: " .. (storage.snip[index].useAntiAlias and "true" or "false")))
-		log(l.debug("output name: " .. (storage.snip[index].outputName or "screenshot")))
-		log(l.debug("format:      " .. storage.snip[index].output_format_index))
-		log(l.debug("jpg quality: " .. storage.snip[index].jpg_quality))
-		log(l.debug("surface_name:" .. storage.snip[index].surface_name))
-	end
-
 	local width = storage.snip[index].area.right - storage.snip[index].area.left
 	local heigth = storage.snip[index].area.bottom - storage.snip[index].area.top
 
@@ -163,7 +115,6 @@ function shooter.renderAreaScreenshot(index)
 	else
 		dstate = 0.5
 	end
-	if l.doD then log(l.debug("dstate ended up being " .. dstate)) end
 
 	local name = storage.snip[index].outputName
 	if not name then name = "screenshot" end

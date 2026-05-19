@@ -1,5 +1,3 @@
-local l = require("logger")
-
 local snip = {}
 
 function snip.resetArea(index)

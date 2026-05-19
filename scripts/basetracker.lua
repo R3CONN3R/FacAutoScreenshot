@@ -1,5 +1,3 @@
-local l = require("logger")
-
 local tracker = {}
 
 function tracker.initializeSurface(surface)
@@ -24,8 +22,6 @@ local function hasEntities(chunk, surface)
 end
 
 function tracker.evaluateLimitsOfSurface(surface_index)
-	log(l.info("Evaluating surface: " .. surface_index))
-
 	local surface = game.surfaces[surface_index];
 	local tchunk = nil;
 	local rchunk = nil;
@@ -57,7 +53,6 @@ function tracker.evaluateLimitsOfSurface(surface_index)
 
 	-- if no blocks have been placed yet
 	if tchunk == nil then
-		log(l.info("tchunk is nil"))
 		storage.tracker[surface_index].limitX = 64
 		storage.tracker[surface_index].limitY = 64
 		storage.tracker[surface_index].minX = -64
@@ -70,20 +65,10 @@ function tracker.evaluateLimitsOfSurface(surface_index)
 		storage.tracker[surface_index].minY = tchunk.area.left_top.y
 		storage.tracker[surface_index].maxY = bchunk.area.right_bottom.y
 
-		if l.doD then log(l.debug("storage.tracker[", surface_index, "].minX: ", storage.tracker[surface_index].minX)) end
-		if l.doD then log(l.debug("storage.tracker[", surface_index, "].maxX: ", storage.tracker[surface_index].maxX)) end
-		if l.doD then log(l.debug("storage.tracker[", surface_index, "].minY: ", storage.tracker[surface_index].minY)) end
-		if l.doD then log(l.debug("storage.tracker[", surface_index, "].maxY: ", storage.tracker[surface_index].maxY)) end
-
 		local top = math.abs(tchunk.area.left_top.y)
 		local right = math.abs(rchunk.area.right_bottom.x)
 		local bottom = math.abs(bchunk.area.right_bottom.y)
 		local left = math.abs(lchunk.area.left_top.x)
-
-		if l.doD then log(l.debug("top: ", top)) end
-		if l.doD then log(l.debug("right: ", right)) end
-		if l.doD then log(l.debug("bottom: ", bottom)) end
-		if l.doD then log(l.debug("left: ", left)) end
 
 		if (top > bottom) then
 			storage.tracker[surface_index].limitY = top
@@ -96,15 +81,10 @@ function tracker.evaluateLimitsOfSurface(surface_index)
 		else
 			storage.tracker[surface_index].limitX = right
 		end
-
-		if l.doD then log(l.debug("limitX: ", storage.tracker[surface_index].limitX)) end
-		if l.doD then log(l.debug("limitY: ", storage.tracker[surface_index].limitY)) end
 	end
 end
 
 local function evaluateLimitsFromMinMax(surface)
-	if l.doD then log(l.debug("evaluate limits from min max")) end
-
 	if math.abs(storage.tracker[surface].minX) > storage.tracker[surface].maxX then
 		storage.tracker[surface].limitX = math.abs(storage.tracker[surface].minX)
 	else
@@ -131,8 +111,6 @@ function tracker.checkForMinMaxChange()
 end
 
 function tracker.evaluateMinMaxFromPosition(pos, surface)
-	if l.doD then log(l.debug("Evaluate min max on surface ", surface, " from position: ", pos.x, "x", pos.y)) end
-
 	if pos.x < storage.tracker[surface].minX then
 		storage.tracker[surface].minX = pos.x
 	elseif pos.x > storage.tracker[surface].maxX then
@@ -144,18 +122,10 @@ function tracker.evaluateMinMaxFromPosition(pos, surface)
 	elseif pos.y > storage.tracker[surface].maxY then
 		storage.tracker[surface].maxY = pos.y
 	end
-
-	if l.doD then log(l.debug("storage.tracker[", surface, "].minX = ", storage.tracker[surface].minX)) end
-	if l.doD then log(l.debug("storage.tracker[", surface, "].maxX = ", storage.tracker[surface].maxX)) end
-	if l.doD then log(l.debug("storage.tracker[", surface, "].minY = ", storage.tracker[surface].minY)) end
-	if l.doD then log(l.debug("storage.tracker[", surface, "].maxY = ", storage.tracker[surface].maxY)) end
-
 	storage.tracker[surface].minMaxChanged = true
 end
 
 function tracker.breaksCurrentLimits(pos, surface)
-	if l.doD then log(l.debug("breakscurrentLimits on surface ", surface, ": pos: ", pos.x, "x", pos.y)) end
-
 	return (pos.x < storage.tracker[surface].minX or
 		pos.x > storage.tracker[surface].maxX or
 		pos.y < storage.tracker[surface].minY or
