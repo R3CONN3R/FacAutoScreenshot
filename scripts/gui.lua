@@ -1,5 +1,4 @@
 local guiBuilder = require("guibuilder")
-local l = require("logger")
 local modGui = require("mod-gui")
 local snip = require("snip")
 
@@ -12,7 +11,6 @@ function gui.initializeAllConnectedPlayers(queueHasEntries)
 end
 
 function gui.initialize(player, queueHasEntries)
-    log(l.info("initializing gui for player " .. player.index))
     local buttonFlow = modGui.get_button_flow(player)
 
     -- destroying already existing buttons in case of changes
@@ -54,7 +52,6 @@ function gui.unhighlightSelectAreaButton(player)
 end
 
 function gui.togglegui(index)
-    log(l.info("toggling gui"))
     local player = game.get_player(index)
     local guiFrame = player.gui.screen[guiBuilder.mainFrameName]
     if not guiFrame then
@@ -68,13 +65,10 @@ function gui.togglegui(index)
 
 
     if not guiFrame or guiFrame.visible then
-        log(l.info("gui is now visible"))
         if storage.snip[index].area.width then
             gui.refreshEstimates(index)
             gui.refreshStartHighResScreenshotButton(index)
         end
-    else
-        log(l.info("gui is now hidden"))
     end
 end
 
@@ -167,11 +161,7 @@ end
 function gui.setStatusValue()
     storage.auto.progressValue = storage.auto.amount / storage.auto.total
     for index, player in pairs(storage.gui) do
-        if l.doD then log(l.debug("player " .. index .. " found")) end
-        if l.doD then log(l.debug("player.mainframe nil? " .. (player.mainFrame == nil and "true" or "false"))) end
         if player.mainFrame and player.mainFrame.valid and player.mainFrame.visible then
-            if l.doD then log(l.debug("setting status value for player " ..
-                index .. " with amount " .. storage.auto.amount .. " / " .. storage.auto.total)) end
             player.status_value.caption = storage.auto.amount .. " / " .. storage.auto.total
             if player.progress_bar.visible == false then
                 player.progress_bar.visible = true
@@ -217,7 +207,6 @@ function gui.refreshStatusCountdown()
         if player.mainFrame and player.mainFrame.valid and player.mainFrame.visible then
             -- when the status is '-' this would always refresh without the if here
             if (player.status_value.caption ~= countdown) then
-                if l.doD then log(l.debug("setting status value for player " .. index .. " with countdown " .. countdown)) end
                 player.status_value.caption = countdown
             end
         end
