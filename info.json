@@ -1,9 +1,11 @@
 {
   "name": "FacAutoScreenshot_Updated",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "title": "Screenshot Toolkit temp Update",
   "author": "Anders142536, R3CONN3R, Hexcoder",
   "description": "* Screenshots a selected area, similar to programs like the Windows Snipping Tool, Greenshot or Flameshot.\n* Automatically does screenshots of the whole base in set minute intervals, designed for timelapses.\n\nWritten to be performance friendly. Aims to be your do-it-all toolkit for screenshots.",
   "factorio_version": "2.1",
-  "dependencies": ["base"]
+  "dependencies": [
+    "base"
+  ]
 }
